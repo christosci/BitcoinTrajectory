@@ -1,6 +1,6 @@
 var svg = d3.select("svg"),
-  margin = { top: 20, right: 20, bottom: 110, left: 40 },
-  margin2 = { top: 430, right: 20, bottom: 30, left: 40 },
+  margin = { top: 20, right: 80, bottom: 110, left: 80 },
+  margin2 = { top: 430, right: 80, bottom: 30, left: 80 },
   width = +svg.attr("width") - margin.left - margin.right,
   height = +svg.attr("height") - margin.top - margin.bottom,
   height2 = +svg.attr("height") - margin2.top - margin2.bottom;
@@ -9,12 +9,14 @@ var parseDate = d3.timeParse("%Y-%m-%d");
 
 var x = d3.scaleTime().range([0, width]),
   x2 = d3.scaleTime().range([0, width]),
-  y = d3.scaleLinear().range([height, 0]),
+  y = d3.scaleLog().range([height, 0]).base(10),
   y2 = d3.scaleLinear().range([height2, 0]);
 
 var xAxis = d3.axisBottom(x),
   xAxis2 = d3.axisBottom(x2),
-  yAxis = d3.axisLeft(y);
+  yAxis = d3.axisLeft(y).ticks(7).tickFormat(function(d){
+    return d3.format("($.2f")(d);
+  });
 
 var brush = d3
   .brushX()
@@ -88,13 +90,16 @@ d3.json("close.json", function(error, data) {
     })
   );
   y.domain([
+    0.01,
+    1000000
+  ]);
+  x2.domain(x.domain());
+  y2.domain([
     0,
     d3.max(data, function(d) {
       return d.price;
     })
   ]);
-  x2.domain(x.domain());
-  y2.domain(y.domain());
 
   focus
     .append("g")
