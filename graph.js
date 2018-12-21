@@ -10,6 +10,16 @@ function render() {
     width = chartDiv.clientWidth - margin.left - margin.right,
     height = chartDiv.clientHeight - margin.top - margin.bottom;
 
+  // gridlines in x axis function
+  function make_x_gridlines() {
+    return d3.axisBottom(x);
+  }
+
+  // gridlines in y axis function
+  function make_y_gridlines() {
+    return d3.axisLeft(y).ticks(5);
+  }
+
   // set the ranges
   var x = d3.scaleTime().range([0, width]);
   var y = d3
@@ -39,31 +49,55 @@ function render() {
   x.domain([regression[0].x, regression[regression.length - 1].x]);
   y.domain([100, 10000000]);
 
-  // Add the valueline path.
+  // add the X gridlines
+  chart
+    .append("g")
+    .attr("class", "grid")
+    .attr(
+      "transform",
+      "translate(0," + height + ")"
+    )
+    .call(
+      make_x_gridlines()
+        .tickSize(-height)
+        .tickFormat("")
+    );
+
+  // add the Y gridlines
+  chart
+    .append("g")
+    .attr("class", "grid")
+    .call(
+      make_y_gridlines()
+        .tickSize(-width)
+        .tickFormat("")
+    );
+
+  // Add the raw data path.
   chart
     .append("path")
     .data([raw_data])
-    .attr("class", "line")
+    .attr("class", "raw_data")
     .attr("d", valueline);
 
-  // Add the valueline2 path.
+  // Add the regression path.
   chart
     .append("path")
     .data([regression])
-    .attr("class", "line")
-    .style("stroke", "red")
+    .attr("class", "regression")
     .attr("d", valueline);
 
   // Add the X Axis
   chart
     .append("g")
+    .attr("class", "axis")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
   // Add the Y Axis
   chart
     .append("g")
-    .attr("class", "axisSteelBlue")
+    .attr("class", "axis")
     .call(
       d3
         .axisLeft(y)
