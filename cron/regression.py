@@ -45,5 +45,6 @@ def regression_to_xy_dict(f, popt, x_start, x_stop, x_step):
     values = []
     for fx, x in enumerate(range(x_start, x_stop, x_step)):
         y = int(f(fx, popt[0], popt[1]))
+        if y == 0: continue
         values.append({'x': x, 'y': y})
     return values
