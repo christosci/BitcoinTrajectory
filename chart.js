@@ -2,12 +2,49 @@ const chartDiv = document.getElementById('chart');
 const svg = d3.select(chartDiv).append('svg');
 
 class Chart {
-  constructor(opts) {
-    this.raw_data = opts.raw_data;
-    this.regression = opts.regression;
+  constructor(data, yDomain) {
+    this.data = data;
+    this.yDomain = yDomain;
+
+    d3.select(window).on('resize', () => this.draw());
   }
 
-  render() {
+  show() {
+    var q = d3.queue();
+    this.data.forEach(d => {
+      q.defer(d3.json, d.path);
+    });
+
+    q.awaitAll((error, args) => {
+      if (error) throw error;
+      let minX = new Date();
+      let maxX = new Date(0);
+
+      args.forEach((d, i) => {
+        const values = this.parse_json(d);
+        this.data[i].values = values;
+
+        const domain = d3.extent(values, d => d.x);
+        minX = Math.min(domain[0], minX);
+        maxX = Math.max(domain[1], maxX);
+      });
+
+      this.xDomain = [minX, maxX];
+      this.draw();
+    });
+  }
+
+  parse_json(data) {
+    const parseDate = d3.timeParse('%s');
+    return data.values.map(point => {
+      return {
+        x: parseDate(point.x),
+        y: point.y
+      };
+    });
+  }
+
+  draw() {
     d3.selectAll('svg > *').remove();
     this.margin = { top: 20, right: 25, bottom: 30, left: 50 };
     this.clientWidth = chartDiv.clientWidth;
@@ -51,6 +88,8 @@ class Chart {
     this.addGridlines();
     this.addLines();
     this.addCrosshairs();
+
+    
   }
 
   zoom() {
@@ -72,22 +111,18 @@ class Chart {
       );
       this.chart.select('.x.axis').call(this.xAxis.scale(this.new_xScale));
       this.chart.select('.y.axis').call(this.yAxis.scale(this.new_yScale));
-      this.data1_path.attr('transform', d3.event.transform);
-      this.data2_path.attr('transform', d3.event.transform);
+      this.data_paths.map(path => path.attr('transform', d3.event.transform));
     };
   }
 
   createScales() {
     this.xScale = d3
       .scaleTime()
-      .domain([
-        this.regression[0].x,
-        this.regression[this.regression.length - 1].x
-      ])
+      .domain(this.xDomain)
       .range([0, this.width]);
     this.yScale = d3
       .scaleLog()
-      .domain([100, 10000000])
+      .domain(this.yDomain)
       .range([this.height, 0])
       .base(10);
     this.new_xScale = this.xScale;
@@ -122,16 +157,27 @@ class Chart {
       .line()
       .x(d => this.xScale(d.x))
       .y(d => this.yScale(d.y));
-    this.data1_path = this.chartBody
-      .append('path')
-      .datum(this.raw_data)
-      .attr('class', 'raw_data')
-      .attr('d', valueline);
-    this.data2_path = this.chartBody
-      .append('path')
-      .datum(this.regression)
-      .attr('class', 'regression')
-      .attr('d', valueline);
+    this.data_paths = this.data.map(d => {
+      return this.chartBody
+        .append('path')
+        .datum(d.values)
+        .attr('class', 'data line')
+        .attr('stroke', d.stroke)
+        .attr('stroke-width', d.strokeWidth)
+        .attr('d', valueline);
+    });
+    // animate the lines
+    this.data_paths.forEach((path, i) => {
+      let totalLength = path.node().getTotalLength();
+      path
+        .attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition()
+        .duration(1000)
+        .delay(i*1000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
+    });
   }
 
   addAxes() {
@@ -139,7 +185,7 @@ class Chart {
     this.yAxis = d3
       .axisLeft(this.yScale)
       .ticks(4, 's')
-      .tickFormat(d3.format('.0s'))
+      .tickFormat(d3.format('.2s'))
       .scale(this.yScale);
 
     this.chart
@@ -177,7 +223,7 @@ class Chart {
     const yText = yTextBox
       .append('text')
       .attr('x', -this.margin.left / 2)
-      .attr('y', d3.select('.yTextBox.bg').attr('height') - 5)
+      .attr('y', 13)
       .attr('class', 'yTextBox text');
 
     xTextBox
@@ -191,13 +237,13 @@ class Chart {
       .attr('x', 50)
       .attr('y', this.height + 13)
       .attr('class', 'xTextBox text');
-    
+
     // update crosshairs
     const self = this;
     this.chartBody
       .on('mousemove', function() {
         const formatY = d3.format('.3s');
-        const formatX = d3.timeFormat('%d %b \'%y');
+        const formatX = d3.timeFormat("%d %b '%y");
         const mouse = d3.mouse(this);
         verticalLine
           .attr('x1', mouse[0])
@@ -225,28 +271,22 @@ class Chart {
   }
 }
 
-function parse_json(data) {
-  const parseDate = d3.timeParse('%s');
-  return data.values.map(point => {
-    return {
-      x: parseDate(point.x),
-      y: point.y
-    };
-  });
-}
+const chart = new Chart(
+  [
+    {
+      name: 'Daily transactions excluding popular addresses',
+      stroke: '#2ce65f',
+      strokeWidth: '1px',
+      path: 'data/transactions.json'
+    },
+    {
+      name: 'Power regression',
+      stroke: '#ff0000',
+      strokeWidth: '2px',
+      path: 'data/regressions/transactions_power.json'
+    }
+  ],
+  [100, 1e14]
+);
 
-d3.queue()
-  .defer(d3.json, 'data/transactions.json')
-  .defer(d3.json, 'data/regressions/transactions_power.json')
-  .await((error, data1, data2) => {
-    if (error) throw error;
-    raw_data = parse_json(data1);
-    regression = parse_json(data2);
-
-    const chart = new Chart({
-      raw_data: raw_data,
-      regression: regression
-    });
-    chart.render();
-    d3.select(window).on('resize', () => chart.render() );
-  });
+chart.show();

@@ -17,6 +17,14 @@ def create_regression(input_filepath, output_filepath, f):
     values = r.regression_to_xy_dict(f, popt, start_timestamp, x_stop, x_step)
     r.xy_to_json(output_filepath, r2, popt.tolist(), values)
 
+def square(filepath):
+    with open(filepath, 'r+') as f:
+        data = json.load(f)
+        for v in data['values']: v['y'] **= 2
+        f.seek(0)
+        json.dump(data, f, indent=4)
+        f.truncate()
+
 def main():
     data_basepath = path.abspath(path.join(path.dirname(__file__), '..', 'data'))
     regressions_path = path.join(data_basepath, 'regressions')
@@ -28,6 +36,8 @@ def main():
 
     create_regression(transactions_in, transactions_power_out, r.power)
     create_regression(addresses_in, addresses_power_out, r.power)
+    square(transactions_in)
+    square(transactions_power_out)
 
 if __name__ == "__main__":
     main()

@@ -1,38 +1,72 @@
- // const focus = chartBody
-  //   .append("g")
-  //   .attr("class", "focus")
-  //   .style("display", "none");
-  // focus.append("circle").attr("r", 4.5);
+// defining styles for the visialization element
+var vis = d3.select('#visualisation'),
+  WIDTH = 500,
+  HEIGHT = 200,
+  MARGINS = {
+    top: 5,
+    right: 20,
+    bottom: 20,
+    left: 50
+  },
+  PADDING = {
+    top: 30,
+    bottom: 10,
+    right: 10,
+    left: 100
+  };
+vis.style('padding-left', PADDING.left);
+vis.style('padding-top', PADDING.top);
 
-  // focus
-  //   .append("text")
-  //   .attr("x", 9)
-  //   .attr("dy", ".35em");
+// defining scales with their domain and range
+var xScale = d3.scale.linear()
+  .domain([0, 30])
+  .range([0, WIDTH]);
 
-  // chartBody
-  //   .append("rect")
-  //   .attr("class", "overlay")
-  //   .attr("width", width)
-  //   .attr("height", height)
-  //   .on("mouseover", function() {
-  //     focus.style("display", null);
-  //   })
-  //   .on("mouseout", function() {
-  //     focus.style("display", "none");
-  //   })
-  //   .on("mousemove", mousemove);
+var yScale = d3.scale.linear()
+  .domain([1000, 0])
+  .range([0, HEIGHT])
 
-  // function mousemove() {
-  //   var x0 = x.invert(d3.mouse(this)[0]),
-  //     i = bisectDate(raw_data, x0, 1),
-  //     d0 = raw_data[i - 1],
-  //     d1 = raw_data[i],
-  //     d = x0 - d0.x > d1.x - x0 ? d1 : d0;
-  //   focus.attr("transform", "translate(" + x(d.x) + "," + y(d.y) + ")");
-  //   focus.select("text").text(d.y);
-  // }
+// defining axes using scales used above
+var xAxis = d3.svg.axis()
+  .scale(xScale)
+  // .orient('bottom') // by default the the axis is on the top
 
-  
-  // const bisectDate = d3.bisector(function(d) {
-  //   return d.x;
-  // }).left;
+var yAxis = d3.svg.axis()
+  .scale(yScale)
+  .orient('left') // by default the the axis is on the top
+
+vis.append("g")
+  .call(yAxis);
+
+vis.append("g")
+  .attr("transform", "translate(0," + HEIGHT + ")")
+  .call(xAxis);
+
+//Plotting the line graph
+var lineData = [45, 104, 89, 300, 240, 122, 403, 380, 700, 582, 590, 455, 708, 91, 105, 149, 251, 804, 711, 840, 297, 41, 80, 280, 508, 175, 297, 702, 145, 700];
+
+var lineFunc = d3.svg.line()
+  .x(function(d, index) {
+    return xScale(index);
+  })
+  .y(function(d) {
+    return yScale(d);
+  })
+  .interpolate('cardinal');
+
+var path = vis.append('svg:path')
+  .attr('d', lineFunc(lineData))
+  .attr('stroke', 'blue')
+  .attr('stroke-width', 2)
+  .attr('fill', 'none');
+
+//Add animation to the line graph
+var totalLength = path.node().getTotalLength();
+
+path
+  .attr("stroke-dasharray", totalLength + " " + totalLength)
+  .attr("stroke-dashoffset", totalLength)
+  .transition()
+  .duration(5000)
+  .ease("linear")
+  .attr("stroke-dashoffset", 0);
