@@ -1,19 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Droid+Sans');
+
 .data.line {
   fill: none;
   vector-effect: non-scaling-stroke;
 }
 
 .axis text {
-  fill: #fff;
+  fill: #ccc;
 }
 
 .axis path,
 line {
-  stroke: #222222;
+  stroke: #222;
 }
 
 .grid line {
-  stroke: #222222;
+  stroke: #151515;
   shape-rendering: crispEdges;
 }
 
@@ -21,19 +23,14 @@ line {
   stroke-width: 0px;
 }
 
-#chart {
-  position: fixed;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  background-color: #0d0d0d;
-  cursor: crosshair;
-}
-
 .chartBody {
   fill: none;
   pointer-events: all;
+}
+
+.halvingsline {
+  vector-effect: non-scaling-stroke;
+  stroke: #555;
 }
 
 /* Crosshair style */
@@ -47,12 +44,21 @@ line {
 /* Crosshair xy labels */
 .xTextBox.bg,
 .yTextBox.bg {
-  fill: #4c525e;
+  fill: #333333;
 }
 
 .xTextBox.text,
 .yTextBox.text {
-  font-size: 13px;
-  fill: #fff;
+  font-size: 12px;
+  fill: #ddd;
   text-anchor: middle;
+  font-weight: bold;
+}
+
+.cyclesline.bear {
+  fill: #ff0000;
+}
+
+.cyclesline.bull {
+  fill: #00ff00;
 }

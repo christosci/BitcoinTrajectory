@@ -1,14 +1,56 @@
 <!DOCTYPE html> <meta charset="utf-8" />
 <head>
-    <title>Bitcoin Trajectory</title>
+  <title>Bitcoin Trajectory</title>
 </head>
 <body>
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="format.js"></script>
+  <link rel="stylesheet" href="chart.css" />
+  <link rel="stylesheet" href="chartpage.css" />
 
-    <div id="chart">
-        <script src="chart.js"></script>
+  <div id="chart-wrapper">
+    <div id="chart"></div>
+    <div id="bottom-bar">
+      <div class ="contents">
+        <table class="settings-table">
+          <tr>
+            <td id="linearScale">Linear</td>
+            <td id="logScale" class="selected">Log</td>
+            <td id="halvings">Halvings</td>
+            <td id="cycles">Cycles</td>
+            <td id="resetZoom">Reset Zoom</td>
+          </tr>
+        </table>
+      </div>
     </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="chart.js"></script>
+  <script>
+    const chart = new Chart(
+      [
+        {
+          name: 'Transactions excluding<br>popular addresses squared',
+          stroke: '#2ce65f',
+          strokeWidth: '1px',
+          path: 'data/transactions.json'
+        },
+        {
+          name: 'Market capitalization<br>(USD)',
+          stroke: '#33ccff',
+          strokeWidth: '2px',
+          path: 'data/marketcap.json'
+        },
+        {
+          name:
+            'Power regression on transactions <br> y = 0.007x<sup>2.224</sup> (R&sup2; = 0.91)',
+          stroke: '#ff0000',
+          strokeWidth: '2px',
+          path: 'data/regressions/transactions_power.json'
+        }
+      ],
+      [100, 1e14],
+      [0, 8e12]
+    );
+    chart.show();
+  </script>
 </body>
