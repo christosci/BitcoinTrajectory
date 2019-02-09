@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Droid+Sans');
-
 .data.line {
   fill: none;
   vector-effect: non-scaling-stroke;
@@ -61,4 +59,19 @@ line {
 
 .cyclesline.bull {
   fill: #00ff00;
+}
+
+/* D3-Legend */
+.legendCells .label, 
+.chartTitle {
+  fill: #aaa;
+  font-family: "Open Sans";
+  font-size: 12px;
+}
+
+.legendTitle {
+  fill: #aaa;
+  font-family: "Open Sans";
+  font-weight: bold;
+  font-size: 12px;
 }

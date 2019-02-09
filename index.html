@@ -1,6 +1,7 @@
 <!DOCTYPE html> <meta charset="utf-8" />
 <head>
   <title>Bitcoin Trajectory</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 </head>
 <body>
   <link rel="stylesheet" href="chart.css" />
@@ -16,7 +17,8 @@
             <td id="logScale" class="selected">Log</td>
             <td id="halvings">Halvings</td>
             <td id="cycles">Cycles</td>
-            <td id="resetZoom">Reset Zoom</td>
+            <td id="legend" class="selected">Legend</td>
+            <!-- <td id="resetZoom" class="selected">Reset Zoom</td> -->
           </tr>
         </table>
       </div>
@@ -24,25 +26,27 @@
   </div>
 
   <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="lib/d3-legend.js"></script>
+  <script src="helper.js"></script>
   <script src="chart.js"></script>
   <script>
-    const chart = new Chart(
+    const chart = new Chart('Metcalfe\'s Law (Transactions vs Market Cap)',
       [
         {
-          name: 'Transactions excluding<br>popular addresses squared',
+          name: 'Transactions excluding popular addresses squared',
           stroke: '#2ce65f',
           strokeWidth: '1px',
           path: 'data/transactions.json'
         },
         {
-          name: 'Market capitalization<br>(USD)',
+          name: 'Market capitalization (USD)',
           stroke: '#33ccff',
           strokeWidth: '2px',
           path: 'data/marketcap.json'
         },
         {
           name:
-            'Power regression on transactions <br> y = 0.007x<sup>2.224</sup> (R&sup2; = 0.91)',
+            'Power regression on transactions y = 0.007x^2.224 (R\u00B2 = 0.91)',
           stroke: '#ff0000',
           strokeWidth: '2px',
           path: 'data/regressions/transactions_power.json'
