@@ -3,6 +3,11 @@
   vector-effect: non-scaling-stroke;
 }
 
+.data.line.ci {
+  stroke-dasharray: 5px;
+  stroke: #aaa;
+}
+
 .axis text {
   fill: #ccc;
 }
@@ -73,5 +78,5 @@ line {
   fill: #aaa;
   font-family: "Open Sans";
   font-weight: bold;
-  font-size: 12px;
+  font-size: 13px;
 }

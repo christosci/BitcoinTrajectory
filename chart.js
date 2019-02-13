@@ -23,7 +23,7 @@ class Chart {
       let maxX = new Date(0);
 
       args.forEach((d, i) => {
-        const values = this.parseJson(d);
+        const values = this.parseJson(d, this.data[i].containsBounds);
         this.data[i].values = values;
 
         const domain = d3.extent(values, d => d.x);
@@ -36,7 +36,16 @@ class Chart {
     });
   }
 
-  parseJson(data) {
+  parseJson(data, containsBounds) {
+    if (containsBounds)
+      return data.values.map(point => {
+        return {
+          x: parseDate(point.x),
+          y: point.y,
+          yUpper: point.y_upper,
+          yLower: point.y_lower
+        };
+      });
     return data.values.map(point => {
       return {
         x: parseDate(point.x),
@@ -66,6 +75,7 @@ class Chart {
     this.addAxes();
     this.addGridlines();
     this.addLines(resize);
+    this.addConfidenceBands(resize);
     this.addCrosshairs();
     this.addLegend();
   }
@@ -124,8 +134,8 @@ class Chart {
       );
       this.chart.select('.x.axis').call(this.xAxis.scale(this.new_xScale));
       this.chart.select('.y.axis').call(this.yAxis.scale(this.new_yScale));
-      this.dataPaths.forEach(path =>
-        path.attr('transform', d3.event.transform).attr('stroke-dasharray', 0)
+      this.data.forEach(d =>
+        d.path.attr('transform', d3.event.transform).attr('stroke-dasharray', 0)
       );
       this.halvingsData.forEach(d =>
         d.path.attr('transform', d3.event.transform)
@@ -133,6 +143,7 @@ class Chart {
       this.cyclesData.forEach(d =>
         d.rect.attr('transform', d3.event.transform)
       );
+      this.cbPaths.forEach(path => path.attr('transform', d3.event.transform));
     };
   }
 
@@ -184,30 +195,33 @@ class Chart {
       .line()
       .x(d => this.xScale(d.x))
       .y(d => this.yScale(d.y));
-    this.dataPaths = this.data.map(d => {
-      return this.chartBody
+    this.data.forEach(d => {
+      d.path = this.chartBody
         .append('path')
         .datum(d.values)
         .attr('class', 'data line')
-        .attr('stroke', d.stroke)
-        .attr('stroke-width', d.strokeWidth)
+        .attr('stroke', d.style.stroke)
+        .attr('stroke-width', d.style.strokeWidth)
         .attr('d', plotLine);
     });
     // animate the lines
     if (!resize) {
       this.hasTransitionEnded = false;
-      this.dataPaths.forEach((path, i) => {
-        let totalLength = path.node().getTotalLength();
-        path
+      this.data.forEach(d => {
+        const totalLength = d.path.node().getTotalLength();
+        d.path
           .attr('stroke-dasharray', totalLength + ' ' + totalLength)
           .attr('stroke-dashoffset', totalLength)
           .transition()
-          .duration(1000)
-          .delay(i * 1000)
-          .ease(d3.easeLinear)
+          .duration(d.transition.duration)
+          .delay(d.transition.delay)
+          .ease(d.transition.ease)
           .attr('stroke-dashoffset', 0)
+          .on('start', () => {
+            this.hasTransitionEnded = false;
+          })
           .on('end', () => {
-            if (i === this.dataPaths.length - 1) this.hasTransitionEnded = true;
+            this.hasTransitionEnded = true;
           });
       });
     }
@@ -314,16 +328,29 @@ class Chart {
         .x(d => this.new_xScale(d.x))
         .y(d => this.new_yScale(d.y));
 
-      this.dataPaths.forEach(line => {
+      this.data.forEach(d => {
         if (this.hasTransitionEnded) {
-          line
+          d.path
             .transition()
             .duration(1000)
             .attr('d', plotLine);
         } else {
-          line.attr('d', plotLine);
+          d.path.attr('d', plotLine);
         }
       });
+
+      this.cbPaths.forEach(path => {
+        const plotFunc = path.classed('upperbound')
+          ? this.plotUpperBound
+          : this.plotLowerBound;
+        if (this.hasTransitionEnded) {
+          path
+            .transition()
+            .duration(1000)
+            .attr('d', plotFunc);
+        } else path.attr('d', plotFunc);
+      });
+
       this.chart
         .transition()
         .duration(1000)
@@ -377,11 +404,11 @@ class Chart {
         });
         const halvingsline = d3.selectAll('.halvingsline');
         const halvingsButton = d3.select('#halvings');
-        if (resize && halvingsButton.attr('class') === 'selected') {
+        if (resize && halvingsButton.classed('selected')) {
           halvingsline.attr('y2', 0);
         }
         halvingsButton.on('click', () => {
-          if (halvingsButton.attr('class') !== 'selected') {
+          if (!halvingsButton.classed('selected')) {
             selectButton(halvingsButton);
             halvingsline
               .transition()
@@ -420,11 +447,11 @@ class Chart {
         });
         const cyclesline = d3.selectAll('.cyclesline');
         const cyclesButton = d3.select('#cycles');
-        if (resize && cyclesButton.attr('class') === 'selected') {
+        if (resize && cyclesButton.classed('selected')) {
           cyclesline.attr('opacity', 0.1);
         }
         cyclesButton.on('click', () => {
-          if (cyclesButton.attr('class') !== 'selected') {
+          if (!cyclesButton.classed('selected')) {
             selectButton(cyclesButton);
             cyclesline
               .transition()
@@ -453,11 +480,44 @@ class Chart {
     d3.select('#resetZoom').on('click', resetZoom);
   }
 
+  addConfidenceBands() {
+    this.cbPaths = [];
+    this.plotUpperBound = d3
+      .line()
+      .x(d => this.new_xScale(d.x))
+      .y(d => this.new_yScale(d.yUpper));
+    this.plotLowerBound = d3
+      .line()
+      .x(d => this.new_xScale(d.x))
+      .y(d => this.new_yScale(d.yLower));
+
+    this.data.forEach(d => {
+      if (d.containsBounds) {
+        this.cbPaths.push(
+          this.chartBody
+            .append('path')
+            .datum(d.values)
+            .attr('class', 'data line upperbound ci')
+            .attr('stroke-width', d.style.strokeWidth)
+            .attr('d', this.plotUpperBound)
+        );
+        this.cbPaths.push(
+          this.chartBody
+            .append('path')
+            .datum(d.values)
+            .attr('class', 'data line lowerbound ci')
+            .attr('stroke-width', d.style.strokeWidth)
+            .attr('d', this.plotLowerBound)
+        );
+      }
+    });
+  }
+
   addLegend() {
     const ordinal = d3
       .scaleOrdinal()
       .domain(this.data.map(d => d.name))
-      .range(this.data.map(d => d.stroke));
+      .range(this.data.map(d => d.style.stroke));
 
     const legendElement = this.chart
       .append('g')
@@ -492,7 +552,7 @@ class Chart {
 
     const legendButton = d3.select('#legend');
     legendButton.on('click', () => {
-      const opacity = legendButton.attr('class') === 'selected' ? 0 : 1;
+      const opacity = legendButton.classed('selected') ? 0 : 1;
       const newClass = opacity == 1 ? 'selected' : null;
       legendElement.style('opacity', opacity);
       legendButton.attr('class', newClass);
