@@ -1,0 +1,52 @@
+<!DOCTYPE html> <meta charset="utf-8" />
+<head>
+  <title>Bitcoin Trajectory</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+  <link rel="stylesheet" href="../css/chart.css" />
+  <link rel="stylesheet" href="../css/chartpage.css" />
+
+  <div id="chart-wrapper">
+    <div id="chart"></div>
+    <div id="bottom-bar">
+      <div class="contents">
+        <table class="settings-table">
+          <tr>
+            <td id="logScale" class="selected">Log<span class="tooltiptext">Toggle log scale</span></td>
+            <td id="halvings">Halvings<span class="tooltiptext">Toggle halving dates</span></td>
+            <td id="cycles">Cycles<span class="tooltiptext">Toggle bear/bull cycles</span></td>
+            <td id="legend" class="selected">Legend</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../js/d3-legend.js"></script>
+  <script src="../js/helper.js"></script>
+  <script src="../js/chart.js"></script>
+  <script>
+    const chart = new Chart(
+      "Market Value vs Realized Value",
+      [
+        {
+          name: 'Market capitalization (USD)',
+          jsonPath: '../data/marketcap.json',
+          style: { stroke: '#2ce65f', strokeWidth: '2px' },
+          transition: { ease: d3.easeQuadInOut, delay: 0, duration: 5000 }
+        },
+        {
+          name: 'Realized capitalization',
+          jsonPath: '../data/realizedcap.json',
+          style: { stroke: '#33ccff', strokeWidth: '2px' },
+          transition: { ease: d3.easeQuadInOut, delay: 1000, duration: 5000 }
+        }
+      ],
+      [100, 1e12],
+      [0, 1e12]
+    );
+    chart.show();
+  </script>
+</body>

@@ -1,0 +1,53 @@
+<!DOCTYPE html> <meta charset="utf-8" />
+<head>
+  <title>Bitcoin Trajectory</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+  <link rel="stylesheet" href="../css/chart.css" />
+  <link rel="stylesheet" href="../css/chartpage.css" />
+
+  <div id="chart-wrapper">
+    <div id="chart"></div>
+    <div id="bottom-bar">
+      <div class="contents">
+        <table class="settings-table">
+          <tr>
+            <td id="logScale" class="selected">Log<span class="tooltiptext">Toggle log scale</span></td>
+            <td id="halvings">Halvings<span class="tooltiptext">Toggle halving dates</span></td>
+            <td id="cycles">Cycles<span class="tooltiptext">Toggle bear/bull cycles</span></td>
+            <td id="legend" class="selected">Legend</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../js/d3-legend.js"></script>
+  <script src="../js/helper.js"></script>
+  <script src="../js/chart.js"></script>
+  <script>
+    const chart = new Chart(
+      "Logarithmic Regression (Trolololo v2.3)",
+      [
+        {
+          name: 'Market price (USD)',
+          jsonPath: '../data/price.json',
+          style: { stroke: '#2ce65f', strokeWidth: '2px' },
+          transition: { ease: d3.easeLinear, delay: 0, duration: 3000 }
+        },
+        {
+          name:
+            'Nonlinear regression y = 2.6617 ln(x) - 17.9184',
+          jsonPath: '../data/regressions/trolololo_log.json',
+          style: { stroke: '#ee0000', strokeWidth: '2px' },
+          transition: { ease: d3.easeLinear, delay: 3000, duration: 3000 }
+        }
+      ],
+      [0.00001, 1e6],
+      [0, 1e5]
+    );
+    chart.show();
+  </script>
+</body>

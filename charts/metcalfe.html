@@ -1,0 +1,61 @@
+<!DOCTYPE html> <meta charset="utf-8" />
+<head>
+  <title>Bitcoin Trajectory</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+  <link rel="stylesheet" href="../css/chart.css" />
+  <link rel="stylesheet" href="../css/chartpage.css" />
+
+  <div id="chart-wrapper">
+    <div id="chart"></div>
+    <div id="bottom-bar">
+      <div class="contents">
+        <table class="settings-table">
+          <tr>
+            <td id="logScale" class="selected">Log<span class="tooltiptext">Toggle log scale</span></td>
+            <td id="halvings">Halvings<span class="tooltiptext">Toggle halving dates</span></td>
+            <td id="cycles">Cycles<span class="tooltiptext">Toggle bear/bull cycles</span></td>
+            <td id="cb">95% CB<span class="tooltiptext">Toggle 95% Confidence Bands</span></td>
+            <td id="legend" class="selected">Legend</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../js/d3-legend.js"></script>
+  <script src="../js/helper.js"></script>
+  <script src="../js/chart.js"></script>
+  <script>
+    const chart = new Chart(
+      "Metcalfe's Law (Transactions vs Market Cap)",
+      [
+        {
+          name: 'Transactions excluding popular addresses squared',
+          jsonPath: '../data/normalized/transactions_squared.json',
+          style: { stroke: '#13a038', strokeWidth: '1px' },
+          transition: { ease: d3.easeQuadInOut, delay: 0, duration: 5000 }
+        },
+        {
+          name: 'Market capitalization (USD)',
+          jsonPath: '../data/marketcap.json',
+          style: { stroke: '#33ccff', strokeWidth: '2px' },
+          transition: { ease: d3.easeQuadInOut, delay: 1000, duration: 5000 }
+        },
+        {
+          name:
+            'Power regression on transactions y = 0.007x^2.224',
+          containsBounds: true,
+          jsonPath: '../data/regressions/transactions_power_squared.json',
+          style: { stroke: '#ee0000', strokeWidth: '2px' },
+          transition: { ease: d3.easeQuadInOut, delay: 6000, duration: 1000 }
+        }
+      ],
+      [10000, 1e14],
+      [0, 8e12]
+    );
+    chart.show();
+  </script>
+</body>
