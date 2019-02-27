@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+  background-color: #161616;
+  color: #aaa;
+  font-family: "Open Sans";
+}
+
+.jumbotron {
+  margin-bottom: 0;
+  background-color: #1b1b1b;
+  color: #ccc;
+}
+
+footer {
+  background-color: #161616;
+  padding: 25px;
+  color: #888;
+  font-size: 13px;
+}
+
+footer a {
+  color: inherit;
+}
+
+/* row */
+.row {
+  padding-bottom: 100px;
+}
+.row .title {
+  color: #ccc;
+  text-align: center;
+  padding: 40px;
+  font-size: 20px;
+}
+/* .row .container div {
+  border: 1px solid black;
+} */
+.row.even {
+  background-color: #1a1a1a;
+}
+.row.odd {
+  background-color: #202020;
+}
+
+/* cards */
+.card-body:hover {
+  background-color: #2d2d2d;
+}
+.card-body {
+  border: 1px solid #444;
+  border-radius: 0;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #292929;
+}
+.card .thumbnail {
+  background-color: transparent;
+  /* border-width: 1px 0px 1px 0px;
+  border-radius: 0;
+  border-color: #333; */
+  border: none;
+  padding: 0;
+}
+.card-title {
+  text-align: center;
+  font-size: 15px;
+}
+.card .card-text {
+  text-align: center;
+}
+.chart-link,
+.chart-link:hover,
+.chart-link:visited {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/* D3 styles */
+.data.line {
+  fill: none;
+}
+.grid line {
+  stroke: #444;
+}
+.grid path {
+  opacity: 0;
+}
