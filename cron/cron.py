@@ -1,43 +1,38 @@
-from os import path
-import regression as r
 import json
-
-start_timestamp = 1279324800
-end_timestamp = 1519603200
-
-#  https://api.blockchain.info/charts/n-transactions-excluding-popular?timespan=all&start=1279324800&format=json&sampled=false
-
-def create_regression(input_filepath, output_filepath, f):
-    x, y = r.json_to_xy(input_filepath, start_timestamp, end_timestamp)
-    x_stop = start_timestamp + 631139040 # 20 years
-    x_step = 86400 # 1 day
-    popt, r2 = r.do_curve_fit(f, x, y)
-    print(popt)
-    print(r2)
-    values = r.regression_to_xy_dict(f, popt, start_timestamp, x_stop, x_step)
-    r.xy_to_json(output_filepath, r2, popt.tolist(), values)
-
-def square(filepath):
-    with open(filepath, 'r+') as f:
-        data = json.load(f)
-        for v in data['values']: v['y'] **= 2
-        f.seek(0)
-        json.dump(data, f, indent=4)
-        f.truncate()
+from constants import *
+from calculate import *
+from process_data import *
 
 def main():
-    data_basepath = path.abspath(path.join(path.dirname(__file__), '..', 'data'))
-    regressions_path = path.join(data_basepath, 'regressions')
+    # fetch data and format it
+    fetch_json()
+    format_coinmetrics_data(ADDRESSES)
+    format_coinmetrics_data(REALIZEDCAP)
+    for info in DATA_INFO:
+        remove_zero_values(info['path'])
 
-    transactions_in = path.join(data_basepath, 'transactions.json')
-    addresses_in = path.join(data_basepath, 'addresses.json')
-    transactions_power_out = path.join(regressions_path, 'transactions_power.json')
-    addresses_power_out = path.join(regressions_path, 'addresses_power.json')
+    # normalize data
+    normalize_data(TRANSACTIONS, TRANSACTIONS_SQUARED, square)
+    normalize_data(ADDRESSES, ADDRESSES_GENMETCALFE, generalized_metcalfe)
+    # m2
+    get_m2(TRANSACTIONS, SUPPLY, TRANSACTIONS_M2, m2)
 
-    create_regression(transactions_in, transactions_power_out, r.power)
-    create_regression(addresses_in, addresses_power_out, r.power)
-    square(transactions_in)
-    square(transactions_power_out)
+    import minify_data
+    
+    # transactions squared
+    # create_regression(TRANSACTIONS, TRANSACTIONS_POWER_SQUARED, power)
+    # normalize_data(TRANSACTIONS_POWER_SQUARED, TRANSACTIONS_POWER_SQUARED, square)
+
+    # addresses generalized metcalfe
+    # create_regression(ADDRESSES, ADDRESSES_POWER_GENMETCALFE, power)
+    # normalize_data(ADDRESSES_POWER_GENMETCALFE, ADDRESSES_POWER_GENMETCALFE, generalized_metcalfe)
+
+    # Trolololo
+    # plot_function(TROLOLOLO_LOG, 1231459200, log, np.asarray([2.66167155005961, 17.9183761889864]))
+
+    # Power law
+    # plot_function(POWER_LAW, 1230940800, power, np.asarray([3.4896e-18, 5.9762]))
+
 
 if __name__ == "__main__":
     main()
