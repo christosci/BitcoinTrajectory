@@ -1,24 +1,44 @@
 <!DOCTYPE html> <meta charset="utf-8" />
 <head>
-  <title>Bitcoin Trajectory</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-133348363-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-133348363-2');
+  </script>
+  <title>Generalized Metcalfe's Law - Bitcoin Trajectory</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-</head>
-<body>
   <link rel="stylesheet" href="../css/chart.css" />
   <link rel="stylesheet" href="../css/chartpage.css" />
-
+  <meta 
+     name='viewport' 
+     content='width=device-width, initial-scale=0.7, user-scalable=0' 
+  />
+</head>
+<body>
   <div id="chart-wrapper">
     <div id="chart"></div>
     <div id="bottom-bar">
       <div class="contents">
+        <span class="website-name"><a href="/">BitcoinTrajectory.com</a></span>
         <table class="settings-table">
           <tr>
-            <td id="logScale" class="selected">Log<span class="tooltiptext">Toggle log scale</span></td>
-            <td id="halvings">Halvings<span class="tooltiptext">Toggle halving dates</span></td>
-            <td id="cycles">Cycles<span class="tooltiptext">Toggle bear/bull cycles</span></td>
-            <td id="cb">95% CB<span class="tooltiptext">Toggle 95% Confidence Bands</span></td>
+            <td id="logScale" class="selected">
+              Log<span class="tooltiptext">Toggle log scale</span>
+            </td>
+            <td id="halvings">
+              Halvings<span class="tooltiptext">Toggle halving dates</span>
+            </td>
+            <td id="cycles">
+              Cycles<span class="tooltiptext">Toggle bear/bull cycles</span>
+            </td>
+            <td id="cb">
+              95% CB<span class="tooltiptext">Toggle 95% confidence bands</span>
+            </td>
             <td id="legend" class="selected">Legend</td>
-            <!-- <td id="resetZoom" class="selected">Reset Zoom</td> -->
           </tr>
         </table>
       </div>
@@ -46,8 +66,7 @@
           transition: { ease: d3.easeQuadInOut, delay: 1000, duration: 5000 }
         },
         {
-          name:
-            'Power regression on addresses y = 0.0012x^2.5847',
+          name: 'Power regression on addresses y = 0.0012x^2.5847',
           containsBounds: true,
           jsonPath: '../data/regressions/addresses_power_genmetcalfe.json',
           style: { stroke: '#ee0000', strokeWidth: '2px' },
