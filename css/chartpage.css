@@ -50,6 +50,16 @@
     font-size: 11px;
 }
 
+/* website name */
+.website-name {
+    font-size: 15px !important;
+    color: #444 !important;
+}
+.website-name a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 /* Settings table */
 .settings-table {
     border-collapse: collapse;
