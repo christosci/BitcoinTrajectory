@@ -1,3 +1,4 @@
 /data
 /data-min
 /cron/__pycache__
+*.log
