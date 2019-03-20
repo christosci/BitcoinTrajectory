@@ -12,7 +12,7 @@ class Chart {
   }
 
   show() {
-    var q = d3.queue();
+    const q = d3.queue();
     this.data.forEach(d => {
       q.defer(d3.json, d.jsonPath);
     });
