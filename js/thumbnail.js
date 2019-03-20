@@ -3,43 +3,33 @@ class Thumbnail {
     this.div = div;
     this.data = data;
     this.yScale = yScale;
-    this.minY = minY; 
+    this.minY = minY;
   }
 
   show() {
-    var q = d3.queue();
+    let minX = new Date();
+    let maxX = new Date(0);
+    let minY = Number.MAX_VALUE;
+    let maxY = 0;
+
     this.data.forEach(d => {
-      q.defer(d3.json, d.jsonPath);
+      const xDomain = d3.extent(d.values, d => d.x);
+      minX = Math.min(xDomain[0], minX);
+      maxX = Math.max(xDomain[1], maxX);
+
+      const yDomain = d3.extent(d.values, d => d.y);
+      minY = Math.min(yDomain[0], minY);
+      maxY = Math.max(yDomain[1], maxY);
     });
 
-    q.awaitAll((error, args) => {
-      if (error) throw error;
-      let minX = new Date();
-      let maxX = new Date(0);
-      let minY = Number.MAX_VALUE;
-      let maxY = 0;
-
-      args.forEach((d, i) => {
-        const values = parseJson(d);
-        this.data[i].values = values;
-
-        const xDomain = d3.extent(values, d => d.x);
-        minX = Math.min(xDomain[0], minX);
-        maxX = Math.max(xDomain[1], maxX);
-
-        const yDomain = d3.extent(values, d => d.y);
-        minY = Math.min(yDomain[0], minY);
-        maxY = Math.max(yDomain[1], maxY);
-      });
-
-      this.xDomain = [minX, maxX];
-      this.yDomain = this.minY === null ? [minY, maxY] : [this.minY, maxY];
-      this.draw();
-    });
+    this.xDomain = [minX, maxX];
+    this.yDomain = this.minY === null ? [minY, maxY] : [this.minY, maxY];
+    this.draw();
   }
 
   draw() {
     const chartDiv = document.getElementById(this.div);
+    d3.select(chartDiv).classed('spinner', false);
     this.width = 400;
     this.height = 250;
     this.svg = d3
