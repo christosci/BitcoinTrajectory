@@ -1,15 +1,24 @@
 import math
 import json
 import requests
+from constants import *
+import logging
+
+logging.basicConfig(filename='error.log', level=logging.DEBUG)
 
 ############################################################
 # Fetch json data
 ############################################################
 
-def fetch_json(url, output_filepath):
-    response = requests.get(url)
-    with open(filepath, "w") as write_file:
-        write_file.write(response.text)
+def fetch_json():
+    for info in DATA_INFO:
+        full_url = info['url'] + info['endpoint']
+        r = requests.get(full_url)
+        if not (r.status_code == 404 or 'error' in json.loads(r.text)):
+            with open(info['path'], "w") as write_file:
+                write_file.write(r.text)
+        else:
+            logging.info('Could not fetch json response from ' + full_url)
 
 ############################################################
 # Decode json data
