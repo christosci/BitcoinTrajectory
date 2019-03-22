@@ -11,10 +11,14 @@ CURRENT_TIME = int(calendar.timegm(time.gmtime()))
 DATA_PATH = path.abspath(path.join(path.dirname(__file__), '..', 'data'))
 DATA_MIN_PATH = path.abspath(path.join(path.dirname(__file__), '..', 'data-min'))
 
+STATIC_PATH = path.join(DATA_PATH, 'static')
 REGRESSIONS_PATH = path.join(DATA_PATH, 'regressions')
 REGRESSIONS_MIN_PATH = path.abspath(path.join(DATA_MIN_PATH, 'regressions'))
 NORMALIZED_PATH = path.join(DATA_PATH, 'normalized')
 NORMALIZED_MIN_PATH = path.join(DATA_MIN_PATH, 'normalized')
+
+# static data
+HALVINGS = path.join(STATIC_PATH, 'halvings.json')
 
 # raw data
 ADDRESSES = path.join(DATA_PATH, 'addresses.json')
