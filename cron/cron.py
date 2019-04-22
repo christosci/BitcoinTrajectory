@@ -5,19 +5,19 @@ from process_data import *
 
 def main():
     # fetch data and format it
-    fetch_json()
-    format_coinmetrics_data(ADDRESSES)
-    format_coinmetrics_data(REALIZEDCAP)
-    for info in DATA_INFO:
-        remove_zero_values(info['path'])
+    # fetch_json()
+    # format_coinmetrics_data(ADDRESSES)
+    # format_coinmetrics_data(REALIZEDCAP)
+    # for info in DATA_INFO:
+    #     remove_zero_values(info['path'])
 
-    # normalize data
-    normalize_data(TRANSACTIONS, TRANSACTIONS_SQUARED, square)
-    normalize_data(ADDRESSES, ADDRESSES_GENMETCALFE, generalized_metcalfe)
-    # m2
-    get_m2(TRANSACTIONS, SUPPLY, TRANSACTIONS_M2, m2)
+    # # normalize data
+    # normalize_data(TRANSACTIONS, TRANSACTIONS_SQUARED, square)
+    # normalize_data(ADDRESSES, ADDRESSES_GENMETCALFE, generalized_metcalfe)
+    # # m2
+    # get_m2(TRANSACTIONS, SUPPLY, TRANSACTIONS_M2, m2)
 
-    import minify_data
+    # import minify_data
     
     # transactions squared
     # create_regression(TRANSACTIONS, TRANSACTIONS_POWER_SQUARED, power)
@@ -31,8 +31,10 @@ def main():
     # plot_function(TROLOLOLO_LOG, 1231459200, log, np.asarray([2.66167155005961, 17.9183761889864]))
 
     # Power law
-    # plot_function(POWER_LAW, 1230940800, power, np.asarray([3.4896e-18, 5.9762]))
+    plot_function(POWER_LAW, 1230940800, power, np.asarray([3.4896e-18, 5.9762], dtype=np.float))
+    # normalize_data(POWER_LAW, POWER_LAW, oneThousandth)
 
+    # normalize_data_xy(SUPPLY, STOCK_TO_FLOW, stock_to_flow)
 
 if __name__ == "__main__":
     main()

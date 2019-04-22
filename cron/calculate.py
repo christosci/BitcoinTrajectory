@@ -31,6 +31,14 @@ def log(x, a, b):
     if x == 0: return 0
     return 10**(a*np.log(x)-b)
 
+def stock_to_flow(x_s, y_s, a=0.4, b=3):
+    for i, h in enumerate(HALVINGS_ARR):
+        if x_s <= h: break
+    i = 2 ** i
+    block_reward = 50/i
+    sf = y_s / (DECAMINUTES * block_reward)
+    return a * sf ** b
+
 def do_curve_fit(func, x, y, alpha=0.05):
     x = np.array(x, dtype=np.int64)
     y = np.array(y, dtype=np.int64)
@@ -52,5 +60,5 @@ def create_regression(input_filepath, output_filepath, func):
 
 def plot_function(output_filepath, x_start, func, coeffs):
     x_stop = START_TIMESTAMP + REGRESSION_TIMESPAN
-    values = regression_to_xy_dict(x_start, x_stop, REGRESSION_X_STEP, log, coeffs)
+    values = regression_to_xy_dict(x_start, x_stop, REGRESSION_X_STEP, func, coeffs)
     xy_to_json(output_filepath, coeffs.tolist(), values)

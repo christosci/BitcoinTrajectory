@@ -40,6 +40,17 @@ def json_to_xy(filepath, x_start, x_stop):
     x = range(len(y))
     return x, y
 
+def json_to_x(filepath, x_start = 0, x_stop = math.inf):
+    """
+    :returns: raw x values as x[].
+    """
+    data = read_from_json(filepath)
+    x = []
+    for v in data['values']:
+        if (x_start <= v['x'] <= x_stop):
+            x.append(v['x'])
+    return x
+
 ############################################################
 # Encode json data
 ############################################################
@@ -97,6 +108,15 @@ def normalize_data(input_filepath, output_filepath, func):
     for v in data['values']: 
         for key in v:
             if key != 'x': v[key] = func(v[key])
+    write_to_json(output_filepath, data)
+
+def normalize_data_xy(input_filepath, output_filepath, func):
+    """
+    Plug xy values into a given function (for functions requiring x).
+    """
+    data = read_from_json(input_filepath)
+    for v in data['values']: 
+        v['y'] = func(v['x'], v['y'])
     write_to_json(output_filepath, data)
 
 def get_m2(n_path, s_path, output_filepath, func):
