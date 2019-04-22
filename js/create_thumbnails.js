@@ -5,7 +5,8 @@ const minJsonPaths = [
   'data-min/normalized/transactions_m2.json',
   'data-min/price.json',
   'data-min/realizedcap.json',
-  'data-min/regressions/trolololo_log.json'
+  'data-min/regressions/trolololo_log.json',
+  'data-min/regressions/power_law.json'
 ];
 var q = d3.queue();
 minJsonPaths.forEach(path => {
@@ -26,14 +27,13 @@ q.awaitAll((error, args) => {
     [
       {
         values: values[0],
-        style: { stroke: '#13a038', strokeWidth: '1px' }
+        style: { stroke: DARK_GREEN, strokeWidth: '1px' }
       },
       {
         values: values[1],
-        style: { stroke: '#33ccff', strokeWidth: '2px' }
+        style: { stroke: BLUE, strokeWidth: '2px' }
       }
-    ],
-    d3.scaleLog()
+    ]
   );
   thumbnail1.show();
 
@@ -42,15 +42,13 @@ q.awaitAll((error, args) => {
     [
       {
         values: values[2],
-        style: { stroke: '#13a038', strokeWidth: '1px' }
+        style: { stroke: DARK_GREEN, strokeWidth: '1px' }
       },
       {
         values: values[1],
-        style: { stroke: '#33ccff', strokeWidth: '2px' }
+        style: { stroke: BLUE, strokeWidth: '2px' }
       }
     ],
-    d3.scaleLog(),
-    80000
   );
   thumbnail2.show();
 
@@ -59,14 +57,13 @@ q.awaitAll((error, args) => {
     [
       {
         values: values[3],
-        style: { stroke: '#147b71', strokeWidth: '1px' }
+        style: { stroke: DARK_GREEN, strokeWidth: '1px' }
       },
       {
         values: values[4],
-        style: { stroke: '#ccbc0f', strokeWidth: '2px' }
+        style: { stroke: BLUE, strokeWidth: '2px' }
       }
-    ],
-    d3.scaleLog()
+    ]
   );
   thumbnail3.show();
 
@@ -75,14 +72,13 @@ q.awaitAll((error, args) => {
     [
       {
         values: values[5],
-        style: { stroke: '#33ccff', strokeWidth: '2px' }
+        style: { stroke: DARK_GREEN, strokeWidth: '2px' }
       },
       {
         values: values[1],
-        style: { stroke: '#2ce65f', strokeWidth: '2px' }
+        style: { stroke: BLUE, strokeWidth: '2px' }
       }
-    ],
-    d3.scaleLog()
+    ]
   );
   thumbnail4.show();
 
@@ -91,14 +87,28 @@ q.awaitAll((error, args) => {
     [
       {
         values: values[4],
-        style: { stroke: '#2ce65f', strokeWidth: '2px' }
+        style: { stroke: GREEN, strokeWidth: '2px' }
       },
       {
         values: values[6],
-        style: { stroke: '#ee0000', strokeWidth: '2px' }
+        style: { stroke: RED, strokeWidth: '2px' }
       }
-    ],
-    d3.scaleLog()
+    ]
   );
   thumbnail5.show();
+
+  const thumbnail6 = new Thumbnail(
+    'thumbnail-6',
+    [
+      {
+        values: values[4],
+        style: { stroke: GREEN, strokeWidth: '2px' }
+      },
+      {
+        values: values[7],
+        style: { stroke: RED, strokeWidth: '2px' }
+      }
+    ]
+  );
+  thumbnail6.show(d3.scaleLog(), null, 1230940800);
 });
