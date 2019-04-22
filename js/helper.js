@@ -35,4 +35,11 @@ function deselectButton(button) {
   button.attr('class', null);
 }
 
+// color palette
+const BLUE_GREEN = '#147b71';
+const GOLD = '#f0e130';
+const DARK_GREEN = '#13a038';
+const GREEN = '#2ce65f';
+const BLUE = '#33ccff';
+const RED = '#ee0000';
 
