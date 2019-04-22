@@ -47,20 +47,18 @@
         {
           name: 'Market price (USD)',
           jsonPath: '../data/price.json',
-          style: { stroke: '#2ce65f', strokeWidth: '2px' },
+          style: { stroke: GREEN, strokeWidth: '2px' },
           transition: { ease: d3.easeLinear, delay: 0, duration: 3000 }
         },
         {
           name:
             'Nonlinear regression y = 2.6617 ln(x) - 17.9184',
           jsonPath: '../data/regressions/trolololo_log.json',
-          style: { stroke: '#ee0000', strokeWidth: '2px' },
+          style: { stroke: RED, strokeWidth: '2px' },
           transition: { ease: d3.easeLinear, delay: 3000, duration: 3000 }
         }
-      ],
-      [0.00001, 1e6],
-      [0, 1e5]
+      ]
     );
-    chart.show();
+    chart.show([0.00001, 1e6], [0, 1e5]);
   </script>
 </body>
