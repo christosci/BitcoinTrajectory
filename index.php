@@ -124,6 +124,29 @@
         </p>
       </div>
     </div>
+    <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="card">
+        <a href="charts/power_law.html" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Power Law</p>
+            <div id="thumbnail-6" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          Log-log chart showing a power law relationship between price and time since the genesis block.<br />
+          <a
+            href="https://www.reddit.com/r/Bitcoin/comments/9cqi0k/bitcoin_power_law_over_10_year_period_all_the_way/"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 <?php include ("footer.html"); ?>
