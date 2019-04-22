@@ -2,16 +2,18 @@ const chartDiv = document.getElementById('chart');
 const svg = d3.select(chartDiv).append('svg');
 
 class Chart {
-  constructor(title, data, yDomainLog, yDomainLinear) {
+  constructor(title, data) {
     this.title = title;
     this.data = data;
-    this.yDomainLog = yDomainLog;
-    this.yDomainLinear = yDomainLinear;
 
     d3.select(window).on('resize', () => this.draw(true));
   }
 
-  show() {
+  show(yDomainLog, yDomainLinear, xStart = null) {
+    this.yDomainLog = yDomainLog;
+    this.yDomainLinear = yDomainLinear;
+    this.xStart = xStart;
+
     const q = d3.queue();
     this.data.forEach(d => {
       q.defer(d3.json, d.jsonPath);
@@ -23,14 +25,13 @@ class Chart {
       let maxX = new Date(0);
 
       args.forEach((d, i) => {
-        const values = parseJson(d, this.data[i].containsBounds);
+        let values = parseJson(d, this.data[i].containsBounds, this.xStart)
         this.data[i].values = values;
 
         const domain = d3.extent(values, d => d.x);
         minX = Math.min(domain[0], minX);
         maxX = Math.max(domain[1], maxX);
       });
-
       this.xDomain = [minX, maxX];
       this.draw();
     });
@@ -125,17 +126,13 @@ class Chart {
       this.cyclesData.forEach(d =>
         d.rect.attr('transform', d3.event.transform)
       );
-      this.cbPaths.forEach(path =>
-        path.attr('transform', d3.event.transform)
-      );
+      this.cbPaths.forEach(path => path.attr('transform', d3.event.transform));
     };
   }
 
   createScales() {
-    this.xScale = d3
-      .scaleTime()
-      .domain(this.xDomain)
-      .range([0, this.width]);
+    this.xScale = this.xStart === null ? d3.scaleTime() : d3.scaleLog();
+    this.xScale.domain(this.xDomain).range([0, this.width]);
     this.yScale = d3
       .scaleLog()
       .domain(this.yDomainLog)
@@ -208,12 +205,13 @@ class Chart {
   }
 
   addAxes() {
-    const siFormat = d3.format('.1s');
     this.xAxis = d3.axisBottom(this.xScale);
+    if (this.xStart !== null)
+      this.xAxis.tickFormat(formatNum('.1s'));
     this.yAxis = d3
       .axisLeft(this.yScale)
       .ticks(5, 's')
-      .tickFormat(x => siFormat(x).replace('G', 'B'));
+      .tickFormat(formatNum('.1s'));
 
     this.chart
       .append('g')
@@ -266,12 +264,11 @@ class Chart {
       .attr('class', 'xTextBox text');
 
     // update crosshairs
+    const formatY = formatNum('.3s');
+    const formatX = this.xStart === null ? d3.timeFormat("%d %b '%y") : formatNum('.0f');
     const self = this;
     this.chartBody
       .on('mousemove', function() {
-        const siFormat = d3.format('.3s');
-        const formatY = y => siFormat(y).replace('G', 'B');
-        const formatX = d3.timeFormat("%d %b '%y");
         const mouse = d3.mouse(this);
         verticalLine
           .attr('x1', mouse[0])
@@ -371,7 +368,7 @@ class Chart {
         if (error) throw error;
         this.halvingsData = data.values;
         this.halvingsData.forEach(d => {
-          d.x = parseDate(d.x);
+          d.x = parseX(d.x, this.xStart);
           d.path = this.chartBody
             .append('line')
             .attr('class', 'halvingsline')
@@ -412,8 +409,8 @@ class Chart {
         if (error) throw error;
         this.cyclesData = data.values;
         this.cyclesData.forEach(d => {
-          d.start = parseDate(d.start);
-          d.end = d.end == null ? new Date() : parseDate(d.end);
+          d.start = parseX(d.start, this.xStart);
+          d.end = d.end == null ? new Date() : parseX(d.end, this.xStart);
           d.rect = this.chartBody
             .append('rect')
             .attr('class', 'cyclesline ' + d.cycle)

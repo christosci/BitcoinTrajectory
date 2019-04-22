@@ -1,18 +1,24 @@
 class Thumbnail {
-  constructor(div, data, yScale, minY = null) {
+  constructor(div, data) {
     this.div = div;
     this.data = data;
-    this.yScale = yScale;
-    this.minY = minY;
   }
 
-  show() {
+  show(yScale = d3.scaleLog(), minY_override = null, xStart = null) {
+    this.yScale = yScale;
+    this.xStart = xStart;
+
     let minX = new Date();
     let maxX = new Date(0);
     let minY = Number.MAX_VALUE;
     let maxY = 0;
 
     this.data.forEach(d => {
+      if (this.xStart !== null) {
+        d.values.forEach(point => {
+          point.x = parseX(point.x.getTime()/1000, this.xStart);
+        });
+      }
       const xDomain = d3.extent(d.values, d => d.x);
       minX = Math.min(xDomain[0], minX);
       maxX = Math.max(xDomain[1], maxX);
@@ -23,7 +29,7 @@ class Thumbnail {
     });
 
     this.xDomain = [minX, maxX];
-    this.yDomain = this.minY === null ? [minY, maxY] : [this.minY, maxY];
+    this.yDomain = minY_override === null ? [minY, maxY] : [minY_override, maxY];
     this.draw();
   }
 
@@ -44,10 +50,8 @@ class Thumbnail {
   }
 
   createScales() {
-    this.xScale = d3
-      .scaleTime()
-      .domain(this.xDomain)
-      .range([0, this.width]);
+    this.xScale = this.xStart === null ? d3.scaleTime() : d3.scaleLog();
+    this.xScale.domain(this.xDomain).range([0, this.width]);
     this.yScale.domain(this.yDomain).range([this.height, 0]);
   }
 
