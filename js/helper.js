@@ -22,6 +22,11 @@ function parseX(x, xStart = null) {
   return daysFromxStart == 0 ? 1 : daysFromxStart;
 }
 
+function formatNum(specifier) {
+  const siFormat = d3.format(specifier);
+  return num => siFormat(num).replace('G', 'B');
+}
+
 function selectButton(button) {
   button.attr('class', 'selected');
 }
