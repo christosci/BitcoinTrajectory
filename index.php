@@ -139,7 +139,7 @@
           </div>
         </a>
         <p class="card-text">
-          Log-log chart showing a power law relationship between price and time since the genesis block.<br />
+          Log-log chart showing a power law relationship between price and days since the genesis block.<br />
           <a
             href="https://www.reddit.com/r/Bitcoin/comments/9cqi0k/bitcoin_power_law_over_10_year_period_all_the_way/"
             >Learn More</a

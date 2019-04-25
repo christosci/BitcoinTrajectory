@@ -12,10 +12,12 @@
         <div id="collapse1" class="panel-collapse collapse in">
           <div class="panel-body">
             <p>Ever since Bitcoin's inception over a decade ago, people have sought 
-            to predict the future trajectory of its value using data and statistical visualizations.
-            Many of these visualizations have been posted in websites, forums, and research papers at some point in time.
-            However, given that Bitcoin's value is constantly changing in a highly volatile manner, these visualizations 
-            quickly became obsolete once they stopped being maintained by their authors.</p>
+            to predict the trajectory of its value using a wide array of statistical models.</p>
+
+            <p>Given that Bitcoin is a constantly evolving digital asset, it is imperative to present the latest network and exchange data
+            in statistical visualizations, such that we can easily judge the accuracy of a statistical model.
+            However, many visualizations posted in websites, forums, and research papers
+            are no longer maintained by their authors.</p>
 
             <p>BitcoinTrajectory.com seeks to solve this problem by providing a curated list of visualizations, all in one place, 
             all updated on a daily basis.</p>
@@ -39,15 +41,15 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">How often are the visualization updated?</a>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">How often are the visualizations updated?</a>
           </h4>
         </div>
         <div id="collapse3" class="panel-collapse collapse">
           <div class="panel-body">
-            <p>Bitcoin network and market data are updated on a daily basis sometime around midnight UTC.</p>
-            <p>In an effort to show their predictive power (or lack thereof), regression formulas and coefficients originally posted 
-              somewhere else are never recalculated. In cases where regression coefficients have not been posted (such as Metcalfe's Law), 
-              we have performed our own regression calculations on daily values from from Jul 17, 2010 to Feb 26, 2018 to ensure best fit.
+            <p>Bitcoin network and exchange data are updated on a daily basis sometime around midnight UTC.</p>
+            <p>In an effort to show their predictive power (or lack thereof), regression coefficients originally posted 
+              elsewhere are never recalculated. In cases where regression coefficients have not been posted (such as Metcalfe's Law), 
+              we have performed our own regression calculations on daily values from from Jul 17, 2010 to Feb 26, 2018.
             </p>
             <p>
               New visualizations are added on a regular basis, so be sure to check back every now and then.
