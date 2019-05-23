@@ -3,6 +3,8 @@ import json
 from constants import *
 from calculate import *
 from process_data import *
+from minify_data import minify
+
 
 def fetch():
     """
@@ -51,5 +53,4 @@ if __name__ == "__main__":
         elif arg == 'normalize': normalize()
         elif arg == 'regress': regress()
         elif arg == 'plot': plot()
-
-    import minify_data
+        elif arg == 'minify': minify()
