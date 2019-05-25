@@ -110,16 +110,19 @@ def normalize_data(input_filepath, output_filepath, func):
             if key != 'x': v[key] = func(v[key])
     write_to_json(output_filepath, data)
 
-def normalize_data_xy(input_filepath, output_filepath, func):
-    """
-    Plug xy values into a given function (for functions requiring x).
-    """
-    data = read_from_json(input_filepath)
-    for v in data['values']: 
-        v['y'] = func(v['x'], v['y'])
-    write_to_json(output_filepath, data)
+def create_stock_to_flow(supply_path, output_filepath, func, start_month = 9):
+    supply = read_from_json(supply_path)
+    output = []
 
-def get_m2(n_path, s_path, output_filepath, func):
+    for i, v in enumerate(supply['values']):
+        if (i < start_month): continue
+        prev_v = supply['values'][i-1]
+        y = func(v['y'], prev_v['y'])
+        output.append({'x': v['x'], 'y': y})
+        
+    write_to_json(output_filepath, {'values': output})
+
+def create_m2(n_path, s_path, output_filepath, func):
     m2_values = []
     n_data = read_from_json(n_path)
     s_data = read_from_json(s_path)
