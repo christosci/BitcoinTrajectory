@@ -47,7 +47,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <!-- <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
         <a href="charts/m2.html" class="chart-link">
           <div class="card-body">
@@ -66,6 +66,29 @@
           the number of transactions and S is the current supply.<br />
           <a
             href="https://medium.com/@clearblocks/valuing-bitcoin-and-ethereum-with-metcalfes-law-aaa743f469f6"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div> -->
+    <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="card">
+        <a href="charts/sf.html" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Stock to Flow</p>
+            <div id="thumbnail-5" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          SF = S / F, where S is the circulating supply and F is the yearly supply growth.<br />
+          <a
+            href="https://medium.com/@100trillionUSD/modeling-bitcoins-value-with-scarcity-91fa0fc03e25"
             >Learn More</a
           >
         </p>
@@ -105,7 +128,7 @@
         <a href="charts/trolololo.html" class="chart-link">
           <div class="card-body">
             <p class="card-title">Logarithmic Regression</p>
-            <div id="thumbnail-5" class="thumbnail spinner">
+            <div id="thumbnail-6" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -129,7 +152,7 @@
         <a href="charts/power_law.html" class="chart-link">
           <div class="card-body">
             <p class="card-title">Power Law</p>
-            <div id="thumbnail-6" class="thumbnail spinner">
+            <div id="thumbnail-7" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -142,6 +165,33 @@
           Log-log chart showing a power law relationship between price and days since the genesis block.<br />
           <a
             href="https://www.reddit.com/r/Bitcoin/comments/9cqi0k/bitcoin_power_law_over_10_year_period_all_the_way/"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row odd">
+  <div class="title w-100">Sentiment Analysis</div>
+  <div class="container">
+    <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="card">
+        <a href="charts/interest.html" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Google Search Interest</p>
+            <div id="thumbnail-8" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          Price compared to monthly search interest for "Bitcoin."<br />
+          <a href="https://scholar.smu.edu/cgi/viewcontent.cgi?article=1039&context=datasciencereview"
             >Learn More</a
           >
         </p>
