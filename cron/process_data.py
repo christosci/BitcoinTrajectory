@@ -4,7 +4,7 @@ import requests
 from constants import *
 import logging
 
-logging.basicConfig(filename='error.log', level=logging.DEBUG)
+logging.basicConfig(filename='error.log', level=logging.INFO)
 
 ############################################################
 # Fetch json data
@@ -50,6 +50,17 @@ def json_to_x(filepath, x_start = 0, x_stop = math.inf):
         if (x_start <= v['x'] <= x_stop):
             x.append(v['x'])
     return x
+
+def get_max_y(filepath):
+    """
+    Returns maximum y value.
+    """
+    data = read_from_json(filepath)
+    max = 0
+    for v in data['values']:
+        if v['y'] > max:
+            max = v['y']
+    return max
 
 ############################################################
 # Encode json data
@@ -100,14 +111,14 @@ def format_coinmetrics_data(filepath):
         json.dump({'values': values }, f, indent=4)
         f.truncate()
 
-def normalize_data(input_filepath, output_filepath, func):
+def normalize_data(input_filepath, output_filepath, func, *args):
     """
     Plug all values (excluding x) into a given function.
     """
     data = read_from_json(input_filepath)
     for v in data['values']: 
         for key in v:
-            if key != 'x': v[key] = func(v[key])
+            if key != 'x': v[key] = func(v[key], *args)
     write_to_json(output_filepath, data)
 
 def create_stock_to_flow(supply_path, output_filepath, func, start_month = 9):
