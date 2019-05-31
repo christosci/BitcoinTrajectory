@@ -47,7 +47,7 @@
         {
           name: '0.4 * SF ^ 3',
           jsonPath: '../data/normalized/stock_flow.json',
-          style: { stroke: DARK_GREEN, strokeWidth: '1px' },
+          style: { stroke: DARK_GREEN, strokeWidth: '2px' },
           transition: { ease: d3.easeQuadInOut, delay: 0, duration: 5000 }
         },
         {
@@ -58,6 +58,6 @@
         },
       ]
     );
-    chart.show([0.01, 1e6], [0, 30000]);
+    chart.show([0.01, 1e8], [0, 500000]);
   </script>
 </body>
