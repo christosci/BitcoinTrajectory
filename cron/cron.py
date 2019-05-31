@@ -24,6 +24,7 @@ def normalize():
     normalize_data(TRANSACTIONS, TRANSACTIONS_SQUARED, square)
     normalize_data(ADDRESSES, ADDRESSES_GENMETCALFE, generalized_metcalfe)
     create_stock_to_flow(MONTHLY_SUPPLY, STOCK_TO_FLOW, stock_to_flow)
+    normalize_data(INTEREST, INTEREST_SCALED, scale, get_max_y(PRICE)/100)
     
 def regress():
     """
