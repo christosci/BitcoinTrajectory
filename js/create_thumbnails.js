@@ -6,7 +6,9 @@ const minJsonPaths = [
   'data-min/price.json',
   'data-min/realizedcap.json',
   'data-min/regressions/trolololo_log.json',
-  'data-min/regressions/power_law.json'
+  'data-min/regressions/power_law.json',
+  'data/normalized/stock_flow.json',
+  'data/normalized/interest_scaled.json'
 ];
 var q = d3.queue();
 minJsonPaths.forEach(path => {
@@ -52,20 +54,20 @@ q.awaitAll((error, args) => {
   );
   thumbnail2.show();
 
-  const thumbnail3 = new Thumbnail(
-    'thumbnail-3',
-    [
-      {
-        values: values[3],
-        style: { stroke: DARK_GREEN, strokeWidth: '1px' }
-      },
-      {
-        values: values[4],
-        style: { stroke: BLUE, strokeWidth: '2px' }
-      }
-    ]
-  );
-  thumbnail3.show();
+  // const thumbnail3 = new Thumbnail(
+  //   'thumbnail-3',
+  //   [
+  //     {
+  //       values: values[3],
+  //       style: { stroke: DARK_GREEN, strokeWidth: '1px' }
+  //     },
+  //     {
+  //       values: values[4],
+  //       style: { stroke: BLUE, strokeWidth: '2px' }
+  //     }
+  //   ]
+  // );
+  // thumbnail3.show();
 
   const thumbnail4 = new Thumbnail(
     'thumbnail-4',
@@ -86,12 +88,12 @@ q.awaitAll((error, args) => {
     'thumbnail-5',
     [
       {
-        values: values[4],
-        style: { stroke: GREEN, strokeWidth: '2px' }
+        values: values[8],
+        style: { stroke: DARK_GREEN, strokeWidth: '2px' }
       },
       {
-        values: values[6],
-        style: { stroke: RED, strokeWidth: '2px' }
+        values: values[4],
+        style: { stroke: BLUE, strokeWidth: '2px' }
       }
     ]
   );
@@ -105,10 +107,40 @@ q.awaitAll((error, args) => {
         style: { stroke: GREEN, strokeWidth: '2px' }
       },
       {
+        values: values[6],
+        style: { stroke: RED, strokeWidth: '2px' }
+      }
+    ]
+  );
+  thumbnail6.show();
+  
+  const thumbnail8 = new Thumbnail(
+    'thumbnail-8',
+    [
+      {
+        values: values[9],
+        style: { stroke: BLUE_GREEN, strokeWidth: '3px' }
+      },
+      {
+        values: values[4],
+        style: { stroke: GOLD, strokeWidth: '1px' }
+      }
+    ]
+  );
+  thumbnail8.show(d3.scaleLinear(), -100);
+
+  const thumbnail7 = new Thumbnail(
+    'thumbnail-7',
+    [
+      {
+        values: values[4],
+        style: { stroke: GREEN, strokeWidth: '2px' }
+      },
+      {
         values: values[7],
         style: { stroke: RED, strokeWidth: '2px' }
       }
     ]
   );
-  thumbnail6.show(d3.scaleLog(), null, 1230940800);
+  thumbnail7.show(d3.scaleLog(), null, 1230940800);
 });
