@@ -35,6 +35,11 @@ def stock_to_flow(supply, prev_supply, a=0.4, b=3, lost_coins=1018750):
     sf = (prev_supply - lost_coins)/((supply-prev_supply)*12)
     return a * sf ** b
 
+def scale(x, scale_factor):
+    scaled_x = x * scale_factor
+    if scaled_x == 0: return 0.01
+    return scaled_x
+
 def do_curve_fit(func, x, y, alpha=0.05):
     x = np.array(x, dtype=np.int64)
     y = np.array(y, dtype=np.int64)
