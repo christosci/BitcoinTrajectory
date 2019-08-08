@@ -3,6 +3,7 @@ import calendar
 import time
 
 START_TIMESTAMP = 1279324800
+START_DATE = '2010-07-16'
 END_TIMESTAMP = 1519603200
 REGRESSION_X_STEP = 30 # days
 REGRESSION_TIMESPAN = 631139040 # 20 years
@@ -47,13 +48,13 @@ INTEREST_SCALED = path.join(NORMALIZED_PATH, 'interest_scaled.json')
 
 # API URLs
 BLOCKCHAIN_URL = 'https://api.blockchain.info/charts/'
-COINMETRICS_URL = 'https://coinmetrics.io/api/v1/'
+COINMETRICS_URL = 'https://community-api.coinmetrics.io/v2/assets/btc/'
 
 DATA_INFO = [
     {
         'path': ADDRESSES,
         'url': COINMETRICS_URL,
-        'endpoint': 'get_asset_data_for_time_range/btc/activeaddresses/%s/%s' % (START_TIMESTAMP, CURRENT_TIME)
+        'endpoint': 'metricdata?metrics=AdrActCnt&start=%s' % START_DATE
     },
     {
         'path': MARKETCAP,
@@ -68,7 +69,7 @@ DATA_INFO = [
     {
         'path': REALIZEDCAP,
         'url': COINMETRICS_URL,
-        'endpoint': 'get_asset_data_for_time_range/btc/realizedcap(usd)/%s/%s' % (START_TIMESTAMP, CURRENT_TIME)
+        'endpoint': 'metricdata?metrics=CapRealUSD&start=%s' % START_DATE
     },
     {
         'path': SUPPLY,

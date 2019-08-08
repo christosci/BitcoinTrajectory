@@ -3,6 +3,7 @@ import json
 import requests
 from constants import *
 import logging
+import dateutil.parser
 
 logging.basicConfig(filename='error.log', level=logging.INFO)
 
@@ -105,8 +106,9 @@ def format_coinmetrics_data(filepath):
     with open(filepath, 'r+') as f:
         data = json.load(f)
         values = []
-        for v in data['result']:
-            values.append({'x': v[0], 'y': v[1]})
+        for v in data['metricData']['series']:
+            time = dateutil.parser.parse(v['time']).timestamp()
+            values.append({'x': time, 'y': float(v['values'][0])})
         f.seek(0)
         json.dump({'values': values }, f, indent=4)
         f.truncate()
