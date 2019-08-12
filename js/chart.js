@@ -25,7 +25,7 @@ class Chart {
       let maxX = new Date(0);
 
       args.forEach((d, i) => {
-        let values = parseJson(d, this.data[i].containsBounds, this.xStart)
+        let values = parseJson(d, this.data[i].containsBounds, this.xStart);
         this.data[i].values = values;
 
         const domain = d3.extent(values, d => d.x);
@@ -65,14 +65,24 @@ class Chart {
 
   createCanvas() {
     svg.attr('width', this.clientWidth).attr('height', this.clientHeight);
-    this.zoom = d3
-      .zoom()
-      .translateExtent([[0, 0], [this.clientWidth, this.clientHeight]])
-      .scaleExtent([1, Infinity])
-      .wheelDelta(
-        () => (-d3.event.deltaY * (d3.event.deltaMode ? 120 : 1)) / 2000
-      )
-      .on('zoom', this.zoomed());
+    const extent = [[0, 0], [this.clientWidth, this.clientHeight]];
+    const scaleExtent = [[0, Infinity], [0, Infinity]];
+    const translateExtent = [[0, 0], [this.clientWidth, this.clientHeight]];
+
+    const newZoom = handler =>
+      d3
+        .xyzoom()
+        .extent(extent)
+        .scaleExtent(scaleExtent)
+        .translateExtent(translateExtent)
+        .wheelDelta(
+          () => (-d3.event.deltaY * (d3.event.deltaMode ? 120 : 1)) / 2000
+        )
+        .on('zoom', handler);
+
+    this.xzoom = newZoom(this.xzoomed());
+    this.yzoom = newZoom(this.yzoomed());
+    this.xyzoom = newZoom(this.xyzoomed());
 
     this.chart = svg
       .append('g')
@@ -80,7 +90,7 @@ class Chart {
         'transform',
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
       )
-      .call(this.zoom);
+      .call(this.xyzoom);
 
     // clip line paths to the body of the chart
     this.chart
@@ -96,12 +106,90 @@ class Chart {
       .attr('class', 'chartBody')
       .attr('width', this.width)
       .attr('height', this.height);
+
+    this.addZoomRects();
   }
 
-  zoomed() {
+  addZoomRects() {
+    const newZoomRect = (id, x, y, w, h, zoom) =>
+      svg
+        .append('svg:rect')
+        .attr('id', id)
+        .attr('width', w)
+        .attr('height', h)
+        .attr('transform', 'translate(' + x + ',' + y + ')')
+        .attr('opacity', '0')
+        .attr('pointer-events', 'all')
+        .call(zoom);
+
+    this.xrect = newZoomRect(
+      'xZoomRect',
+      this.margin.left,
+      this.clientHeight - this.margin.bottom,
+      this.width,
+      this.margin.bottom,
+      this.xzoom
+    );
+    this.yrect = newZoomRect(
+      'yZoomRect',
+      0,
+      this.margin.top,
+      this.margin.left,
+      this.height,
+      this.yzoom
+    );
+  }
+
+  newTransform(x, y, kx, ky) {
+    return d3.xyzoomIdentity.translate(x, y).scale(kx, ky);
+  }
+
+  xzoomed() {
     return () => {
-      this.new_xScale = d3.event.transform.rescaleX(this.xScale);
-      this.new_yScale = d3.event.transform.rescaleY(this.yScale);
+      const t = d3.event.transform;
+      if (t.y != 0 || t.ky != 1) {
+        return this.xrect.call(
+          this.xzoom.transform,
+          this.newTransform(t.x, 0, t.kx, 1)
+        );
+      }
+      const xOld = d3.xyzoomTransform(this.xrect.node());
+      const xyOld = d3.xyzoomTransform(this.chart.node());
+      const xyNew = this.newTransform(t.x, xyOld.y, t.kx, xyOld.ky);
+      if (xyNew.x != xyOld.x || xyNew.kx != xyOld.kx) {
+        this.chart.call(this.xyzoom.transform, xyNew);
+      }
+    };
+  }
+
+  yzoomed() {
+    return () => {
+      const t = d3.event.transform;
+      if (t.x != 0 || t.kx != 1) {
+        return this.yrect.call(
+          this.yzoom.transform,
+          this.newTransform(0, t.y, 1, t.ky)
+        );
+      }
+      const xyOld = d3.xyzoomTransform(this.chart.node());
+      const xyNew = d3.xyzoomIdentity
+        .translate(xyOld.x, t.y)
+        .scale(xyOld.kx, t.ky);
+      if (xyNew.y != xyOld.y || xyNew.ky != xyOld.ky) {
+        this.chart.call(this.xyzoom.transform, xyNew);
+      }
+    };
+  }
+
+  xyzoomed() {
+    return () => {
+      const t = d3.event.transform;
+      const xOld = d3.xyzoomTransform(this.xrect.node());
+      const yOld = d3.xyzoomTransform(this.yrect.node());
+
+      this.new_xScale = t.rescaleX(this.xScale);
+      this.new_yScale = t.rescaleY(this.yScale);
+
       this.chart.select('.x.grid').call(
         d3
           .axisBottom(this.new_xScale)
@@ -127,6 +215,19 @@ class Chart {
         d.rect.attr('transform', d3.event.transform)
       );
       this.cbPaths.forEach(path => path.attr('transform', d3.event.transform));
+
+      if (xOld.x != t.x || xOld.kx != t.kx) {
+        this.xrect.call(
+          this.xzoom.transform,
+          this.newTransform(t.x, 0, t.kx, 1)
+        );
+      }
+      if (yOld.y != t.y || yOld.ky != t.ky) {
+        this.yrect.call(
+          this.yzoom.transform,
+          this.newTransform(0, t.y, 1, t.ky)
+        );
+      }
     };
   }
 
@@ -206,8 +307,7 @@ class Chart {
 
   addAxes() {
     this.xAxis = d3.axisBottom(this.xScale);
-    if (this.xStart !== null)
-      this.xAxis.tickFormat(formatNum('.1s'));
+    if (this.xStart !== null) this.xAxis.tickFormat(formatNum('.1s'));
     this.yAxis = d3
       .axisLeft(this.yScale)
       .ticks(5, 's')
@@ -265,7 +365,8 @@ class Chart {
 
     // update crosshairs
     const formatY = formatNum('.3s');
-    const formatX = this.xStart === null ? d3.timeFormat("%d %b '%y") : formatNum('.0f');
+    const formatX =
+      this.xStart === null ? d3.timeFormat("%d %b '%y") : formatNum('.0f');
     const self = this;
     this.chartBody
       .on('mousemove', function() {
@@ -347,7 +448,7 @@ class Chart {
     };
     const logButton = d3.select('#logScale');
     logButton.on('click', () => {
-      this.chart.call(this.zoom.transform, d3.zoomIdentity);
+      this.chart.call(this.xyzoom.transform, d3.xyzoomIdentity);
       if (logButton.classed('selected')) {
         deselectButton(logButton);
         this.yScale = d3.scaleLinear();
