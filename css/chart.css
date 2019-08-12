@@ -40,6 +40,14 @@ line {
   stroke: #555;
 }
 
+/* Cursor styles */
+#xZoomRect {
+  cursor: ew-resize !important;
+}
+#yZoomRect {
+  cursor: ns-resize !important;
+}
+
 /* Crosshair style */
 .crosshair {
   stroke: #333;
