@@ -1,0 +1,49 @@
+{
+    "metcalfe": {
+        "title": "Metcalfe's Law",
+        "additional_settings": [
+            "logScale",
+            "cb"
+        ]
+    },
+    "generalized_metcalfe": {
+        "title": "Generalized Metcalfe's Law",
+        "additional_settings": [
+            "logScale",
+            "cb"
+        ]
+    },
+    "m2": {
+        "title": "M2",
+        "additional_settings": [
+            "logScale"
+        ]
+    },
+    "mvrv": {
+        "title": "MVRV",
+        "additional_settings": [
+            "logScale"
+        ]
+    },
+    "power_law": {
+        "title": "Power Law"
+    },
+    "sf": {
+        "title": "Stock to Flow",
+        "additional_settings": [
+            "logScale"
+        ]
+    },
+    "trolololo": {
+        "title": "Log Regression (Trolololo v2.3)",
+        "additional_settings": [
+            "logScale"
+        ]
+    },
+    "interest": {
+        "title": "Google Search Interest",
+        "additional_settings": [
+            "logScale"
+        ]
+    }
+}

@@ -1,3 +1,4 @@
+<?php include 'available_charts.php' ?>
 <!DOCTYPE html> <meta charset="utf-8" />
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -9,7 +10,7 @@
 
     gtag('config', 'UA-133348363-2');
   </script>
-  <title>Log Regression (Trolololo v2.3) - Bitcoin Trajectory</title>
+  <title><?php echo $title; ?> - Bitcoin Trajectory</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <link rel="stylesheet" href="../css/chart.css" />
   <link rel="stylesheet" href="../css/chartpage.css" />
@@ -23,12 +24,21 @@
     <div id="chart"></div>
     <div id="bottom-bar">
       <div class="contents">
-        <span class="website-name"><a href="/">BitcoinTrajectory.com</a></span>
+        <span class="website-name"><a href="/">BitcoinTrajectory.com</a></span>        
         <table class="settings-table">
           <tr>
-            <td id="logScale" class="selected">Log<span class="tooltiptext">Toggle log scale</span></td>
-            <td id="halvings">Halvings<span class="tooltiptext">Toggle halving dates</span></td>
-            <td id="cycles">Cycles<span class="tooltiptext">Toggle bear/bull cycles</span></td>
+            <td id="logScale" class="selected" <?php get_display_style('logScale'); ?>>
+                Log<span class="tooltiptext">Toggle log scale</span>
+            </td>
+            <td id="halvings">
+              Halvings<span class="tooltiptext">Toggle halving dates</span>
+            </td>
+            <td id="cycles">
+              Cycles<span class="tooltiptext">Toggle bear/bull cycles</span>
+            </td>
+            <td id="cb" <?php get_display_style('cb'); ?>>
+              95% CB<span class="tooltiptext">Toggle 95% confidence bands</span>
+            </td>
             <td id="legend" class="selected">Legend</td>
           </tr>
         </table>
@@ -37,28 +47,9 @@
   </div>
 
   <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../js/d3-xyzoom.min.js"></script>
   <script src="../js/d3-legend.js"></script>
   <script src="../js/helper.js"></script>
   <script src="../js/chart.js"></script>
-  <script>
-    const chart = new Chart(
-      "Logarithmic Regression (Trolololo v2.3)",
-      [
-        {
-          name: 'Market price (USD)',
-          jsonPath: '../data/price.json',
-          style: { stroke: GREEN, strokeWidth: '2px' },
-          transition: { ease: d3.easeLinear, delay: 0, duration: 3000 }
-        },
-        {
-          name:
-            'y = 2.6617 ln(x) - 17.9184',
-          jsonPath: '../data/regressions/trolololo_log.json',
-          style: { stroke: RED, strokeWidth: '2px' },
-          transition: { ease: d3.easeLinear, delay: 3000, duration: 3000 }
-        }
-      ]
-    );
-    chart.show([0.00001, 1e6], [0, 1e5]);
-  </script>
+  <script src="<?php echo $chart_id; ?>.js"></script>
 </body>
