@@ -4,7 +4,7 @@
   <div class="container">
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/metcalfe.html" class="chart-link">
+        <a href="charts/chart.php?id=metcalfe" class="chart-link">
           <div class="card-body">
             <p class="card-title">Metcalfe's Law</p>
             <div id="thumbnail-1" class="thumbnail spinner">
@@ -28,7 +28,7 @@
     </div>
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/generalized_metcalfe.html" class="chart-link">
+        <a href="charts/chart.php?id=generalized_metcalfe" class="chart-link">
           <div class="card-body">
             <p class="card-title">Generalized Metcalfe's Law</p>
             <div id="thumbnail-2" class="thumbnail spinner">
@@ -49,7 +49,7 @@
     </div>
     <!-- <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/m2.html" class="chart-link">
+        <a href="charts/chart.php?id=m2" class="chart-link">
           <div class="card-body">
             <p class="card-title">M2 vs Market Price</p>
             <div id="thumbnail-3" class="thumbnail spinner">
@@ -73,7 +73,7 @@
     </div> -->
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/sf.html" class="chart-link">
+        <a href="charts/chart.php?id=sf" class="chart-link">
           <div class="card-body">
             <p class="card-title">Stock to Flow</p>
             <div id="thumbnail-5" class="thumbnail spinner">
@@ -96,7 +96,7 @@
     </div>
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/mvrv.html" class="chart-link">
+        <a href="charts/chart.php?id=mvrv" class="chart-link">
           <div class="card-body">
             <p class="card-title">Market Cap vs Realized Cap</p>
             <div id="thumbnail-4" class="thumbnail spinner">
@@ -125,7 +125,7 @@
   <div class="container">
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/trolololo.html" class="chart-link">
+        <a href="charts/chart.php?id=trolololo" class="chart-link">
           <div class="card-body">
             <p class="card-title">Logarithmic Regression</p>
             <div id="thumbnail-6" class="thumbnail spinner">
@@ -149,7 +149,7 @@
     </div>
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/power_law.html" class="chart-link">
+        <a href="charts/chart.php?id=power_law" class="chart-link">
           <div class="card-body">
             <p class="card-title">Power Law</p>
             <div id="thumbnail-7" class="thumbnail spinner">
@@ -177,7 +177,7 @@
   <div class="container">
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
-        <a href="charts/interest.html" class="chart-link">
+        <a href="charts/chart.php?id=interest" class="chart-link">
           <div class="card-body">
             <p class="card-title">Google Search Interest</p>
             <div id="thumbnail-8" class="thumbnail spinner">
