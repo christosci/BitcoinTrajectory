@@ -92,3 +92,12 @@ line {
   font-weight: bold;
   font-size: 13px;
 }
+
+.legendCells {
+  cursor: pointer;
+}
+
+.legendCells .hidden {
+  text-decoration-line: line-through;
+  fill: #aaa;
+}

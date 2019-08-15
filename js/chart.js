@@ -277,12 +277,13 @@ class Chart {
       .line()
       .x(d => this.xScale(d.x))
       .y(d => this.yScale(d.y));
-    this.data.forEach(d => {
+    this.data.forEach((d, i) => {
       d.path = this.chartBody
         .append('path')
         .datum(d.values)
-        .attr('class', 'data line')
+        .attr('class', 'data line datum' + i)
         .attr('stroke', d.style.stroke)
+        .attr('opacity', 1)
         .attr('stroke-width', d.style.strokeWidth)
         .attr('d', plotLine);
     });
@@ -371,6 +372,25 @@ class Chart {
     this.chartBody
       .on('mousemove', function() {
         const mouse = d3.mouse(this);
+        const labels = d3.selectAll('.legendCells .cell .label');
+        
+        self.data.forEach((datum, idx) => {
+          const values = datum.values;
+          const bisectDate = d3.bisector(d => d.x).left;
+          const x0 = self.new_xScale.invert(mouse[0]);
+          const i = bisectDate(values, x0, 1);
+          const d0 = values[i - 1];
+
+          if (typeof values[i] != 'undefined') {
+            const d1 = values[i];
+            const d = x0 - d0.x > d1.x - x0 ? d1 : d0;
+            d3.select(labels.nodes()[idx]).text(datum.name + " | " + formatY(d.y));
+          }
+          else {
+            d3.select(labels.nodes()[idx]).text(datum.name);
+          }
+        })
+
         verticalLine
           .attr('x1', mouse[0])
           .attr('x2', mouse[0])
@@ -626,12 +646,19 @@ class Chart {
             return d.label !== 'e';
           })
           .scale(ordinal)
+          .on('cellclick', function(d) {
+            const legendCell = d3.select(this);
+            const i = ordinal.domain().indexOf(d);
+            const datapoint = d3.select('.data.datum' + i);
+            datapoint.attr('opacity', 1 - datapoint.attr('opacity'));
+            legendCell.classed('hidden', !legendCell.classed('hidden'));
+          })
       );
 
     legendElement.attr(
       'transform',
       'translate(' +
-        (this.width - legendElement.node().getBBox().width) +
+        (this.width - legendElement.node().getBBox().width - 50) +
         ', ' +
         (this.height - legendElement.node().getBBox().height - 20) +
         ')'
