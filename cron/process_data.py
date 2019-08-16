@@ -123,6 +123,15 @@ def normalize_data(input_filepath, output_filepath, func, *args):
             if key != 'x': v[key] = func(v[key], *args)
     write_to_json(output_filepath, data)
 
+def create_log_returns(input_filepath, output_filepath, func):
+    data = read_from_json(input_filepath)
+    prev = 1
+    for v in data['values']:
+        temp = v['y']
+        v['y'] = func(v['y'], prev)
+        prev = temp
+    write_to_json(output_filepath, data)
+
 def create_stock_to_flow(supply_path, output_filepath, func, start_month = 9):
     supply = read_from_json(supply_path)
     output = []

@@ -40,6 +40,9 @@ def scale(x, scale_factor):
     if scaled_x == 0: return 0.01
     return scaled_x
 
+def log_return(curr, prev):
+    return np.log(curr) - np.log(prev)
+
 def do_curve_fit(func, x, y, alpha=0.05):
     x = np.array(x, dtype=np.int64)
     y = np.array(y, dtype=np.int64)

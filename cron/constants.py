@@ -45,6 +45,7 @@ ADDRESSES_GENMETCALFE = path.join(NORMALIZED_PATH, 'addresses_genmetcalfe.json')
 TRANSACTIONS_M2 = path.join(NORMALIZED_PATH, 'transactions_m2.json')
 STOCK_TO_FLOW = path.join(NORMALIZED_PATH, 'stock_flow.json')
 INTEREST_SCALED = path.join(NORMALIZED_PATH, 'interest_scaled.json')
+DAILY_LOG_RETURNS = path.join(NORMALIZED_PATH, 'daily_log_returns.json')
 
 # API URLs
 BLOCKCHAIN_URL = 'https://api.blockchain.info/charts/'
