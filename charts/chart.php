@@ -22,6 +22,7 @@
 <body>
   <div id="chart-wrapper">
     <div id="chart"></div>
+    <div id="bottom-chart"></div>
     <div id="bottom-bar">
       <div class="contents">
         <span class="website-name"><a href="/">BitcoinTrajectory.com</a></span>        
@@ -51,5 +52,6 @@
   <script src="../js/d3-legend.js"></script>
   <script src="../js/helper.js"></script>
   <script src="../js/chart.js"></script>
+  <script src="../js/bottom_chart.js"></script>
   <script src="<?php echo $chart_id; ?>.js"></script>
 </body>
