@@ -45,5 +45,11 @@
         "additional_settings": [
             "logScale"
         ]
+    },
+    "daily_log_returns": {
+        "title": "Daily Log Returns",
+        "additional_settings": [
+            "logScale"
+        ]
     }
 }
