@@ -18,11 +18,28 @@
     position:fixed;
     top: 0px;
     right: 0px;
-    bottom: 40px;
+    bottom: 0px;
     left: 0px;
     background-color: #050505;
     cursor: crosshair;
 }
+
+#bottom-chart {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    background-color: #050505;
+    cursor: crosshair;
+}
+
+.bottom-chart-show {
+    position: fixed !important;
+    top: 65% !important;
+    right: 0px !important;
+    bottom: 70px !important;
+    left: 0px !important;
+}
+
 
 #bottom-bar {
     position: fixed;

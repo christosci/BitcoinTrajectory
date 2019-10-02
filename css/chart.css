@@ -44,7 +44,7 @@ line {
 #xZoomRect {
   cursor: ew-resize !important;
 }
-#yZoomRect {
+#yZoomRect, #yRightZoomRect {
   cursor: ns-resize !important;
 }
 
