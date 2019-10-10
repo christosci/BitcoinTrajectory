@@ -8,7 +8,9 @@ const minJsonPaths = [
   'data-min/regressions/trolololo_log.json',
   'data-min/regressions/power_law.json',
   'data/normalized/stock_flow.json',
-  'data/normalized/interest_scaled.json'
+  'data/normalized/interest_scaled.json',
+  'data/normalized/daily_log_returns.json',
+  'data-min/normalized/metcalfe_multiple.json'
 ];
 var q = d3.queue();
 minJsonPaths.forEach(path => {
@@ -18,129 +20,127 @@ minJsonPaths.forEach(path => {
 q.awaitAll((error, args) => {
   if (error) throw error;
 
-  values = [];
+  values = {};
   args.forEach((d, i) => {
     const v = parseJson(d);
-    values[i] = v;
+    values[d.short_name] = v;
   });
 
-  const thumbnail1 = new Thumbnail(
-    'thumbnail-1',
+  new Thumbnail(
+    'thumbnail-metcalfe',
     [
       {
-        values: values[0],
+        values: values.transactions_squared,
         style: { stroke: DARK_GREEN, strokeWidth: '1px' }
       },
       {
-        values: values[1],
+        values: values.marketcap,
         style: { stroke: BLUE, strokeWidth: '2px' }
       }
     ]
-  );
-  thumbnail1.show();
+  ).show();
 
-  const thumbnail2 = new Thumbnail(
-    'thumbnail-2',
+  new Thumbnail(
+    'thumbnail-metcalfemultiple',
     [
       {
-        values: values[2],
+        values: values.metcalfe_multiple,
+        style: { stroke: "GOLD", strokeWidth: '1px' }
+      }
+    ]
+  ).show(d3.scaleLinear());
+
+  new Thumbnail(
+    'thumbnail-genmetcalfe',
+    [
+      {
+        values: values.addresses_genmetcalfe,
         style: { stroke: DARK_GREEN, strokeWidth: '1px' }
       },
       {
-        values: values[1],
+        values: values.marketcap,
         style: { stroke: BLUE, strokeWidth: '2px' }
       }
     ],
-  );
-  thumbnail2.show();
+  ).show();
 
-  // const thumbnail3 = new Thumbnail(
-  //   'thumbnail-3',
-  //   [
-  //     {
-  //       values: values[3],
-  //       style: { stroke: DARK_GREEN, strokeWidth: '1px' }
-  //     },
-  //     {
-  //       values: values[4],
-  //       style: { stroke: BLUE, strokeWidth: '2px' }
-  //     }
-  //   ]
-  // );
-  // thumbnail3.show();
-
-  const thumbnail4 = new Thumbnail(
-    'thumbnail-4',
+  new Thumbnail(
+    'thumbnail-mvrv',
     [
       {
-        values: values[5],
+        values: values.realizedcap,
         style: { stroke: DARK_GREEN, strokeWidth: '2px' }
       },
       {
-        values: values[1],
+        values: values.marketcap,
         style: { stroke: BLUE, strokeWidth: '2px' }
       }
     ]
-  );
-  thumbnail4.show();
+  ).show();
 
-  const thumbnail5 = new Thumbnail(
-    'thumbnail-5',
+  new Thumbnail(
+    'thumbnail-sf',
     [
       {
-        values: values[8],
+        values: values.stock_flow,
         style: { stroke: DARK_GREEN, strokeWidth: '2px' }
       },
       {
-        values: values[4],
+        values: values.price,
         style: { stroke: BLUE, strokeWidth: '2px' }
       }
     ]
-  );
-  thumbnail5.show();
+  ).show();
 
-  const thumbnail6 = new Thumbnail(
-    'thumbnail-6',
+  new Thumbnail(
+    'thumbnail-trolololo',
     [
       {
-        values: values[4],
+        values: values.price,
         style: { stroke: GREEN, strokeWidth: '2px' }
       },
       {
-        values: values[6],
+        values: values.trolololo_log,
         style: { stroke: RED, strokeWidth: '2px' }
       }
     ]
-  );
-  thumbnail6.show();
+  ).show();
   
-  const thumbnail8 = new Thumbnail(
-    'thumbnail-8',
+  new Thumbnail(
+    'thumbnail-interest',
     [
       {
-        values: values[9],
+        values: values.interest_scaled,
         style: { stroke: BLUE_GREEN, strokeWidth: '3px' }
       },
       {
-        values: values[4],
+        values: values.price,
         style: { stroke: GOLD, strokeWidth: '1px' }
       }
     ]
-  );
-  thumbnail8.show(d3.scaleLinear(), -100);
+  ).show(d3.scaleLinear(), -100);
 
-  const thumbnail7 = new Thumbnail(
-    'thumbnail-7',
+  new Thumbnail(
+    'thumbnail-powerlaw',
     [
       {
-        values: values[4],
+        values: values.price,
         style: { stroke: GREEN, strokeWidth: '2px' }
       },
       {
-        values: values[7],
+        values: values.power_law,
         style: { stroke: RED, strokeWidth: '2px' }
       }
     ]
-  );
-  thumbnail7.show(d3.scaleLog(), null, 1230940800);
+  ).show(d3.scaleLog(), null, 1230940800);
+
+  new Thumbnail(
+    'thumbnail-dailylogreturns',
+    [
+      {
+        values: values.daily_log_returns,
+        style: { stroke: BLUE_GREEN, strokeWidth: '1px' }
+      }
+    ]
+  ).show(d3.scaleLinear(), -1);
 });
