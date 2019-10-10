@@ -2,11 +2,10 @@ const bottomChartDiv = document.getElementById('bottom-chart');
 let svgBottom = d3.select(bottomChartDiv).append('svg');
 
 class BottomChart {
-  constructor(title, data) {
+  constructor(title, data, annotations) {
     this.title = title;
     this.data = data;
-
-    // d3.select(window).on('resize', () => this.draw(true));
+    this.annotations = annotations;
   }
 
   show(yDomain) {
@@ -21,17 +20,11 @@ class BottomChart {
 
     q.awaitAll((error, args) => {
       if (error) throw error;
-      let minX = new Date();
-      let maxX = new Date(0);
 
       args.forEach((d, i) => {
         let values = parseJson(d, this.data[i].containsBounds);
         this.data[i].values = values;
-        const domain = d3.extent(values, d => d.x);
-        minX = Math.min(domain[0], minX);
-        maxX = Math.max(domain[1], maxX);
       });
-      this.xDomain = [minX, maxX];
       this.draw();
     });
   }
@@ -50,33 +43,24 @@ class BottomChart {
     this.createCanvas();
     if (!resize) {
       this.createScales();
-      // this.updateScale();
-      // this.resetZoom();
     } else {
       this.resizeScales();
     }
-    // this.addHalvings(resize);
-    // this.addCycles(resize);
     this.addAxes();
     this.addGridlines();
     this.addLines(resize);
-    // this.addConfidenceBands(resize);
     this.addCrosshairs();
     this.addLegend();
+    this.addAnnotations();
+    this.addDivider();
   }
 
   createCanvas() {
     svgBottom.attr('width', this.clientWidth).attr('height', this.clientHeight);
-    const extent = [[0, 0], [this.clientWidth, this.clientHeight]];
-    const scaleExtent = [[0, Infinity], [0, Infinity]];
-    const translateExtent = [[0, 0], [this.clientWidth, this.clientHeight]];
 
     const newZoom = handler =>
       d3
         .zoom()
-        // .extent(extent)
-        // .scaleExtent(scaleExtent)
-        .translateExtent(translateExtent)
         .wheelDelta(
           () => (-d3.event.deltaY * (d3.event.deltaMode ? 120 : 1)) / 2000
         )
@@ -127,7 +111,6 @@ class BottomChart {
       'yZoomRect',
       0,
       this.margin.top,
-      // this.width+this.margin.right,
       this.margin.left,
       this.height,
       this.yzoom
@@ -148,6 +131,11 @@ class BottomChart {
           .attr('d', plotLine)
           .attr('stroke-dasharray', 0);
       });
+
+      this.annotations.forEach(a =>
+        a.path.remove()
+      );
+      this.addAnnotations();
 
       this.chart.select('.y.grid').call(
         d3
@@ -241,11 +229,6 @@ class BottomChart {
       .axisLeft(this.yScale)
       .ticks(5, 's')
       .tickFormat(formatNum('.1f'));
-    // this.chart
-    //   .append('g')
-    //   .attr('class', 'x axis')
-    //   .attr('transform', 'translate(0,' + this.height + ')')
-    //   .call(this.xAxis);
     this.chart
       .append('g')
       .attr('class', 'y axis')
@@ -258,7 +241,7 @@ class BottomChart {
     const verticalLineTop = svg
       .append('line')
       .attr('y1', 0)
-      .attr('y2', chartDiv.clientHeight-100)
+      .attr('y2', chartDiv.clientHeight - 100)
       .attr('class', 'crosshair')
       .attr('opacity', 0);
     this.verticalLine = this.chartBody
@@ -307,7 +290,9 @@ class BottomChart {
     this.chartBody
       .on('mousemove', function() {
         const mouse = d3.mouse(this);
-        const labels = d3.selectAll('.legendCells .cell .label');
+        const labels = d3.selectAll(
+          '.legendOrdinalBottom .legendCells .cell .label'
+        );
 
         self.data.forEach((datum, idx) => {
           const values = datum.values;
@@ -369,7 +354,6 @@ class BottomChart {
       .call(
         d3
           .legendColor()
-          // .title(this.title)
           .shape(
             'path',
             d3
@@ -377,8 +361,6 @@ class BottomChart {
               .type(d3.symbolSquare)
               .size(50)()
           )
-          // .shapePadding(0)
-          // use cellFilter to hide the "e" cell
           .cellFilter(function(d) {
             return d.label !== 'e';
           })
@@ -402,6 +384,46 @@ class BottomChart {
     );
   }
 
+  addAnnotations() {
+    if (this.annotations != null)
+      this.annotations.forEach(a => {
+        if (a.type == 'line') {
+          if (a.y != null) a.path = this.addHorizontalLine(a.y, a.color);
+          else a.path = this.addVerticalLine(a.x, a.color);
+        }
+      });
+  }
+
+  addHorizontalLine(y, color = '#fff') {
+    return this.chartBody
+      .append('line')
+      .attr('stroke', color)
+      .attr('x1', 0)
+      .attr('y1', this.new_yScale(y))
+      .attr('x2', this.width)
+      .attr('y2', this.new_yScale(y));
+  }
+
+  addVerticalLine(x, color = '#fff') {
+    return this.chartBody
+      .append('line')
+      .attr('stroke', color)
+      .attr('x1', this.new_xScale(x))
+      .attr('y1', 0)
+      .attr('x2', this.new_xScale(x))
+      .attr('y2', this.height);
+  }
+
+  addDivider() {
+    this.chartBody
+      .append('line')
+      .attr('class', 'divider')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', this.width)
+      .attr('y2', 0);
+  }
+
   zoomHandler(t) {
     this.new_xScale = t.rescaleX(this.xScale);
     const plotLine = d3
@@ -421,13 +443,5 @@ class BottomChart {
         .tickSize(-this.height)
         .tickFormat('')
     );
-    // this.chart.select('.y.grid').call(
-    //   d3
-    //     .axisLeft(this.new_yScale)
-    //     .ticks(5)
-    //     .tickSize(-this.width)
-    //     .tickFormat('')
-    // );
-    // this.chart.select('.x.axis').call(this.xAxis.scale(this.new_xScale));
   }
 }
