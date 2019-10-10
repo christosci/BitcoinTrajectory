@@ -1,4 +1,3 @@
-import os
 import math
 import json
 import requests
@@ -58,30 +57,17 @@ def get_max_y(filepath):
     Returns maximum y value.
     """
     data = read_from_json(filepath)
-    max = data['values'][0]['y']
+    max = 0
     for v in data['values']:
         if v['y'] > max:
             max = v['y']
     return max
-
-def get_min_y(filepath):
-    """
-    Returns minimum y value.
-    """
-    data = read_from_json(filepath)
-    min = data['values'][0]['y']
-    for v in data['values']:
-        if v['y'] < min:
-            min = v['y']
-    return min
 
 ############################################################
 # Encode json data
 ############################################################
 
 def write_to_json(path, data):
-    basename = os.path.basename(path)
-    data['short_name'] = os.path.splitext(basename)[0]
     with open(path, 'w') as write_file:
         json.dump(data, write_file, indent=4)
 
@@ -127,7 +113,7 @@ def format_coinmetrics_data(filepath):
         json.dump({'values': values }, f, indent=4)
         f.truncate()
 
-def apply(input_filepath, output_filepath, func, *args):
+def normalize_data(input_filepath, output_filepath, func, *args):
     """
     Plug all values (excluding x) into a given function.
     """
@@ -136,31 +122,6 @@ def apply(input_filepath, output_filepath, func, *args):
         for key in v:
             if key != 'x': v[key] = func(v[key], *args)
     write_to_json(output_filepath, data)
-
-def apply2(a_path, b_path, output_filepath, func):
-    output_values = []
-    a_values = read_from_json(a_path)['values']
-    b_values = read_from_json(b_path)['values']
-
-    a_offset, b_offset = get_offset(a_values, b_values)
-
-    for i in range( 0, min(len(a_values), len(b_values)) ):
-        y = func(a_values[i+a_offset]['y'], b_values[i+b_offset]['y'])
-        output_values.append({'x': a_values[i+a_offset]['x'], 'y': y})
-
-    write_to_json(output_filepath, {'values': output_values})
-
-def get_offset(a_values, b_values):
-    offset = 1
-    if a_values[0]['x'] < b_values[0]['x']:
-        while b_values[0]['x'] != a_values[offset]['x']:
-            offset+=1
-        return (offset, 0)
-    elif a_values[0]['x'] > b_values[0]['x']:
-        while a_values[0]['x'] != b_values[offset]['x']:
-            offset+=1
-        return (0, offset)
-    return (0, 0)
 
 def create_log_returns(input_filepath, output_filepath, func):
     data = read_from_json(input_filepath)
@@ -182,6 +143,17 @@ def create_stock_to_flow(supply_path, output_filepath, func, start_month = 9):
         output.append({'x': v['x'], 'y': y})
         
     write_to_json(output_filepath, {'values': output})
+
+def create_m2(n_path, s_path, output_filepath, func):
+    m2_values = []
+    n_data = read_from_json(n_path)
+    s_data = read_from_json(s_path)
+
+    for i, n in enumerate(n_data['values']): 
+        y = func(n['y'], s_data['values'][i]['y'])
+        m2_values.append({'x': n['x'], 'y': y})
+
+    write_to_json(output_filepath, {'values': m2_values})
 
 def remove_zero_values(filepath):
     """
