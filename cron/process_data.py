@@ -137,6 +137,31 @@ def apply(input_filepath, output_filepath, func, *args):
             if key != 'x': v[key] = func(v[key], *args)
     write_to_json(output_filepath, data)
 
+def apply2(a_path, b_path, output_filepath, func):
+    output_values = []
+    a_values = read_from_json(a_path)['values']
+    b_values = read_from_json(b_path)['values']
+
+    a_offset, b_offset = get_offset(a_values, b_values)
+
+    for i in range( 0, min(len(a_values), len(b_values)) ):
+        y = func(a_values[i+a_offset]['y'], b_values[i+b_offset]['y'])
+        output_values.append({'x': a_values[i+a_offset]['x'], 'y': y})
+
+    write_to_json(output_filepath, {'values': output_values})
+
+def get_offset(a_values, b_values):
+    offset = 1
+    if a_values[0]['x'] < b_values[0]['x']:
+        while b_values[0]['x'] != a_values[offset]['x']:
+            offset+=1
+        return (offset, 0)
+    elif a_values[0]['x'] > b_values[0]['x']:
+        while a_values[0]['x'] != b_values[offset]['x']:
+            offset+=1
+        return (0, offset)
+    return (0, 0)
+
 def create_log_returns(input_filepath, output_filepath, func):
     data = read_from_json(input_filepath)
     prev = 1
