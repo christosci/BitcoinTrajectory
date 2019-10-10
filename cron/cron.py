@@ -1,5 +1,6 @@
 import sys
 import json
+import numpy as np
 from constants import *
 from calculate import *
 from process_data import *
@@ -21,11 +22,13 @@ def normalize():
     """
     Normalize data - needs to be done in a routine basis after fetching data.
     """
-    normalize_data(TRANSACTIONS, TRANSACTIONS_SQUARED, square)
-    normalize_data(ADDRESSES, ADDRESSES_GENMETCALFE, generalized_metcalfe)
+    apply(TRANSACTIONS, TRANSACTIONS_SQUARED, square)
+    apply(ADDRESSES, ADDRESSES_GENMETCALFE, generalized_metcalfe)
     create_stock_to_flow(MONTHLY_SUPPLY, STOCK_TO_FLOW, stock_to_flow)
-    normalize_data(INTEREST, INTEREST_SCALED, scale, get_max_y(PRICE)/100)
+    apply(INTEREST, INTEREST_SCALED, scale, get_max_y(PRICE)/100)
     create_log_returns(PRICE, DAILY_LOG_RETURNS, log_return)
+    apply2(TRANSACTIONS_SQUARED, SUPPLY, METCALFE_PRICE, np.divide)
+    apply2(PRICE, METCALFE_PRICE, METCALFE_MULTIPLE, np.divide)
     
 def regress():
     """
@@ -33,11 +36,11 @@ def regress():
     """
     # metcalfe's law
     create_regression(TRANSACTIONS, TRANSACTIONS_POWER_SQUARED, power)
-    normalize_data(TRANSACTIONS_POWER_SQUARED, TRANSACTIONS_POWER_SQUARED, square)
-
+    apply(TRANSACTIONS_POWER_SQUARED, TRANSACTIONS_POWER_SQUARED, square)
+    
     # generalized metcalfe's law
     create_regression(ADDRESSES, ADDRESSES_POWER_GENMETCALFE, power)
-    normalize_data(ADDRESSES_POWER_GENMETCALFE, ADDRESSES_POWER_GENMETCALFE, generalized_metcalfe)
+    apply(ADDRESSES_POWER_GENMETCALFE, ADDRESSES_POWER_GENMETCALFE, generalized_metcalfe)
 
 def plot():
     """

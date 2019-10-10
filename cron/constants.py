@@ -41,11 +41,13 @@ POWER_LAW = path.join(REGRESSIONS_PATH, 'power_law.json')
 
 # normalized data
 TRANSACTIONS_SQUARED = path.join(NORMALIZED_PATH, 'transactions_squared.json')
+METCALFE_PRICE = path.join(NORMALIZED_PATH, 'metcalfe_price.json')
 ADDRESSES_GENMETCALFE = path.join(NORMALIZED_PATH, 'addresses_genmetcalfe.json')
 TRANSACTIONS_M2 = path.join(NORMALIZED_PATH, 'transactions_m2.json')
 STOCK_TO_FLOW = path.join(NORMALIZED_PATH, 'stock_flow.json')
 INTEREST_SCALED = path.join(NORMALIZED_PATH, 'interest_scaled.json')
 DAILY_LOG_RETURNS = path.join(NORMALIZED_PATH, 'daily_log_returns.json')
+METCALFE_MULTIPLE = path.join(NORMALIZED_PATH, 'metcalfe_multiple.json')
 
 # API URLs
 BLOCKCHAIN_URL = 'https://api.blockchain.info/charts/'
