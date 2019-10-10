@@ -5,18 +5,16 @@ class Chart {
   constructor(title, data) {
     this.title = title;
     this.data = data;
-  
+
     d3.select(window).on('resize', () => {
-      
       this.draw(true);
-      if (this.bottomChart != null) 
-        this.bottomChart.draw(true);
+      if (this.bottomChart != null) this.bottomChart.draw(true);
     });
   }
 
   setBottomChart(bottomChart) {
     this.bottomChart = bottomChart;
-    this.heightFactor = 0.70;
+    this.heightFactor = 0.75;
   }
 
   show(yDomainLog, yDomainLinear, xStart = null) {
@@ -44,6 +42,7 @@ class Chart {
         maxX = Math.max(domain[1], maxX);
       });
       this.xDomain = [minX, maxX];
+      if (this.bottomChart != null) bottomChart.xDomain = this.xDomain;
       this.draw();
     });
   }
@@ -55,7 +54,7 @@ class Chart {
     }
     this.margin = { top: 20, right: 50, bottom: 30, left: 50 };
     this.clientWidth = chartDiv.clientWidth;
-    this.clientHeight = chartDiv.clientHeight*this.heightFactor-40;
+    this.clientHeight = chartDiv.clientHeight * this.heightFactor - 40;
     this.width = this.clientWidth - this.margin.left - this.margin.right;
     this.height = this.clientHeight - this.margin.top - this.margin.bottom;
 
@@ -140,7 +139,7 @@ class Chart {
     this.xrect = newZoomRect(
       'xZoomRect',
       this.margin.left,
-      chartDiv.clientHeight-70,
+      chartDiv.clientHeight - 70,
       this.width,
       this.margin.bottom,
       this.xzoom
@@ -331,22 +330,15 @@ class Chart {
       .ticks(5, 's')
       .tickFormat(formatNum('.1s'));
 
-    // const bottomChartElement = d3.select('#bottom-chart').select('.chart');
-    // const height = document.getElementById('bottom-chart').clientHeight;
-    // const transform = height-this.margin.top-this.margin.bottom;
-
-    // if (bottomChartElement != null)
-    //   bottomChartElement
-    //     .append('g')
-    //     .attr('class', 'x axis')
-    //     .attr('transform', 'translate(0,' + transform + ')')
-    //     .call(this.xAxis);
-    // else
-    const transform = chartDiv.clientHeight-this.margin.top-this.margin.bottom-20;
+    const transform =
+      chartDiv.clientHeight - this.margin.top - this.margin.bottom - 20;
     svg
       .append('g')
       .attr('class', 'x axis')
-      .attr('transform', 'translate(' + this.margin.left + ',' + transform + ')')
+      .attr(
+        'transform',
+        'translate(' + this.margin.left + ',' + transform + ')'
+      )
       .call(this.xAxis);
     this.chart
       .append('g')
@@ -355,14 +347,15 @@ class Chart {
   }
 
   addCrosshairs() {
-    const transform = chartDiv.clientHeight-this.margin.top-this.margin.bottom-20;
+    const transform =
+      chartDiv.clientHeight - this.margin.top - this.margin.bottom - 20;
 
     const verticalLine = svg
       .append('line')
       .attr('y1', 0)
       .attr('y2', transform)
       .attr('class', 'crosshair')
-      .attr('opacity', 0)
+      .attr('opacity', 0);
     const horizontalLine = this.chartBody
       .append('line')
       .attr('x1', 0)
@@ -405,7 +398,7 @@ class Chart {
       .on('mousemove', function() {
         const mouse = d3.mouse(this);
         const labels = d3.selectAll('.legendCells .cell .label');
-        
+
         self.data.forEach((datum, idx) => {
           const values = datum.values;
           const bisectDate = d3.bisector(d => d.x).left;
@@ -416,27 +409,29 @@ class Chart {
           if (typeof values[i] != 'undefined') {
             const d1 = values[i];
             const d = x0 - d0.x > d1.x - x0 ? d1 : d0;
-            d3.select(labels.nodes()[idx]).text(datum.name + " | " + formatY(d.y));
-          }
-          else {
+            d3.select(labels.nodes()[idx]).text(
+              datum.name + ' | ' + formatY(d.y)
+            );
+          } else {
             d3.select(labels.nodes()[idx]).text(datum.name);
           }
-        })
+        });
 
         verticalLine
-          .attr('x1', mouse[0]+50)
-          .attr('x2', mouse[0]+50)
+          .attr('x1', mouse[0] + 50)
+          .attr('x2', mouse[0] + 50)
           .attr('opacity', 1);
-        self.bottomChart.verticalLine
-          .attr('x1', mouse[0])
-          .attr('x2', mouse[0])
-          .attr('opacity', 1);
+        if (self.bottomChart != null)
+          self.bottomChart.verticalLine
+            .attr('x1', mouse[0])
+            .attr('x2', mouse[0])
+            .attr('opacity', 1);
         horizontalLine
           .attr('y1', mouse[1])
           .attr('y2', mouse[1])
           .attr('opacity', 1);
         xTextBox
-          .attr('transform', 'translate(' + (mouse[0]) + ',0)')
+          .attr('transform', 'translate(' + mouse[0] + ',0)')
           .attr('opacity', 1);
         yTextBox
           .attr('transform', 'translate(0,' + (mouse[1] - 9) + ')')
@@ -446,7 +441,8 @@ class Chart {
       })
       .on('mouseout', function() {
         verticalLine.attr('opacity', 0);
-        self.bottomChart.verticalLine.attr('opacity', 0);
+        if (self.bottomChart != null)
+          self.bottomChart.verticalLine.attr('opacity', 0);
         horizontalLine.attr('opacity', 0);
         xTextBox.attr('opacity', 0);
         yTextBox.attr('opacity', 0);
@@ -677,8 +673,6 @@ class Chart {
               .type(d3.symbolSquare)
               .size(50)()
           )
-          // .shapePadding(0)
-          // use cellFilter to hide the "e" cell
           .cellFilter(function(d) {
             return d.label !== 'e';
           })
