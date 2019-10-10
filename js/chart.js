@@ -23,9 +23,11 @@ class Chart {
     this.xStart = xStart;
     this.heightFactor = 1;
 
+    const noCache = noCacheStr();
     const q = d3.queue();
+    
     this.data.forEach(d => {
-      q.defer(d3.json, d.jsonPath);
+      q.defer(d3.json, d.jsonPath + noCache);
     });
 
     q.awaitAll((error, args) => {

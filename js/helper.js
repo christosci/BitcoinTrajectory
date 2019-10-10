@@ -35,6 +35,11 @@ function deselectButton(button) {
   button.attr('class', null);
 }
 
+function noCacheStr() {
+  const date = new Date();
+  return "?nocache=" + date.getUTCDate() + (date.getUTCMonth() + 1) + date.getUTCFullYear();
+}
+
 // color palette
 const BLUE_GREEN = '#147b71';
 const GOLD = '#f0e130';

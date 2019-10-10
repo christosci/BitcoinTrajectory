@@ -13,9 +13,11 @@ class BottomChart {
     d3.select(bottomChartDiv).attr('class', 'bottom-chart-show');
     this.yDomain = yDomain;
 
+    const noCache = noCacheStr();
     const q = d3.queue();
+
     this.data.forEach(d => {
-      q.defer(d3.json, d.jsonPath);
+      q.defer(d3.json, d.jsonPath + noCache);
     });
 
     q.awaitAll((error, args) => {
