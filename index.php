@@ -7,7 +7,7 @@
         <a href="charts/chart.php?id=metcalfe" class="chart-link">
           <div class="card-body">
             <p class="card-title">Metcalfe's Law</p>
-            <div id="thumbnail-1" class="thumbnail spinner">
+            <div id="thumbnail-metcalfe" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -31,7 +31,7 @@
         <a href="charts/chart.php?id=generalized_metcalfe" class="chart-link">
           <div class="card-body">
             <p class="card-title">Generalized Metcalfe's Law</p>
-            <div id="thumbnail-2" class="thumbnail spinner">
+            <div id="thumbnail-genmetcalfe" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -47,36 +47,12 @@
         </p>
       </div>
     </div>
-    <!-- <div class="col-md-3 col-sm-4 col-xs-12">
-      <div class="card">
-        <a href="charts/chart.php?id=m2" class="chart-link">
-          <div class="card-body">
-            <p class="card-title">M2 vs Market Price</p>
-            <div id="thumbnail-3" class="thumbnail spinner">
-              <div class="rect1"></div>
-              <div class="rect2"></div>
-              <div class="rect3"></div>
-              <div class="rect4"></div>
-              <div class="rect5"></div>
-            </div>
-          </div>
-        </a>
-        <p class="card-text">
-          The M2 formula is given by 100(N<sup>1.5</sup>/S), where N is
-          the number of transactions and S is the current supply.<br />
-          <a
-            href="https://medium.com/@clearblocks/valuing-bitcoin-and-ethereum-with-metcalfes-law-aaa743f469f6"
-            >Learn More</a
-          >
-        </p>
-      </div>
-    </div> -->
     <div class="col-md-3 col-sm-4 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=sf" class="chart-link">
           <div class="card-body">
             <p class="card-title">Stock to Flow</p>
-            <div id="thumbnail-5" class="thumbnail spinner">
+            <div id="thumbnail-sf" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -99,7 +75,7 @@
         <a href="charts/chart.php?id=mvrv" class="chart-link">
           <div class="card-body">
             <p class="card-title">Market Cap vs Realized Cap</p>
-            <div id="thumbnail-4" class="thumbnail spinner">
+            <div id="thumbnail-mvrv" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -118,6 +94,29 @@
         </p>
       </div>
     </div>
+    <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="card">
+        <a href="charts/chart.php?id=metcalfe_multiple" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Metcalfe Multiple</p>
+            <div id="thumbnail-metcalfemultiple" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          Price / Daily transactions (excluding the 100 most popular addresses)&sup2;
+          <!-- <a
+            href=""
+            >Learn More</a
+          > -->
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 <div class="row even">
@@ -128,7 +127,7 @@
         <a href="charts/chart.php?id=trolololo" class="chart-link">
           <div class="card-body">
             <p class="card-title">Logarithmic Regression</p>
-            <div id="thumbnail-6" class="thumbnail spinner">
+            <div id="thumbnail-trolololo" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -139,8 +138,7 @@
         </a>
         <p class="card-text">
           Logarithmic regression of market price with x-intercept at the
-          genesis block date. Regression coefficients were obtained from
-          BitcoinTalk.org forum user Trolololo.<br />
+          genesis block date.<br />
           <a href="https://bitcointalk.org/index.php?topic=831547.0"
             >Learn More</a
           >
@@ -152,7 +150,7 @@
         <a href="charts/chart.php?id=power_law" class="chart-link">
           <div class="card-body">
             <p class="card-title">Power Law</p>
-            <div id="thumbnail-7" class="thumbnail spinner">
+            <div id="thumbnail-powerlaw" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -180,7 +178,7 @@
         <a href="charts/chart.php?id=interest" class="chart-link">
           <div class="card-body">
             <p class="card-title">Google Search Interest</p>
-            <div id="thumbnail-8" class="thumbnail spinner">
+            <div id="thumbnail-interest" class="thumbnail spinner">
               <div class="rect1"></div>
               <div class="rect2"></div>
               <div class="rect3"></div>
@@ -192,6 +190,33 @@
         <p class="card-text">
           Price compared to monthly search interest for "Bitcoin."<br />
           <a href="https://scholar.smu.edu/cgi/viewcontent.cgi?article=1039&context=datasciencereview"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row even">
+  <div class="title w-100">Volatility</div>
+  <div class="container">
+    <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="card">
+        <a href="charts/chart.php?id=daily_log_returns" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Log Returns</p>
+            <div id="thumbnail-dailylogreturns" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          Logarithmic returns on a daily basis.<br />
+          <a href="https://quantivity.wordpress.com/2011/02/21/why-log-returns/"
             >Learn More</a
           >
         </p>
