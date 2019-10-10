@@ -13,12 +13,15 @@
   fill: #111;
 }
 
+.divider {
+  stroke: #333;
+}
+
 .axis text {
   fill: #ccc;
 }
 
-.axis path,
-line {
+.axis path, .axis line {
   stroke: #222;
 }
 
