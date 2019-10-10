@@ -51,5 +51,11 @@
         "additional_settings": [
             "logScale"
         ]
+    },
+    "metcalfe_multiple": {
+        "title": "Metcalfe Multiple",
+        "additional_settings": [
+            "logScale"
+        ]
     }
 }
