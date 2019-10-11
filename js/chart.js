@@ -25,7 +25,7 @@ class Chart {
 
     const noCache = noCacheStr();
     const q = d3.queue();
-    
+
     this.data.forEach(d => {
       q.defer(d3.json, d.jsonPath + noCache);
     });
@@ -356,7 +356,7 @@ class Chart {
       .append('line')
       .attr('y1', 0)
       .attr('y2', transform)
-      .attr('class', 'crosshair')
+      .attr('class', 'crosshair verticalLineTop')
       .attr('opacity', 0);
     const horizontalLine = this.chartBody
       .append('line')
@@ -365,7 +365,10 @@ class Chart {
       .attr('class', 'crosshair');
 
     const yTextBox = this.chart.append('g').attr('opacity', 0);
-    const xTextBox = svg.append('g').attr('opacity', 0);
+    const xTextBox = svg
+      .append('g')
+      .attr('opacity', 0)
+      .attr('class', 'xTextBoxGroup');
 
     yTextBox
       .append('rect')
@@ -391,6 +394,29 @@ class Chart {
       .attr('y', transform + 13)
       .attr('class', 'xTextBox text');
 
+    verticalLine.on('change', function() {
+      const mouse = d3.event.detail;
+      const labels = d3.selectAll('.legendCells .cell .label');
+
+      self.data.forEach((datum, idx) => {
+        const values = datum.values;
+        const bisectDate = d3.bisector(d => d.x).left;
+        const x0 = self.new_xScale.invert(mouse[0]);
+        const i = bisectDate(values, x0, 1);
+        const d0 = values[i - 1];
+
+        if (typeof values[i] != 'undefined') {
+          const d1 = values[i];
+          const d = x0 - d0.x > d1.x - x0 ? d1 : d0;
+          d3.select(labels.nodes()[idx]).text(
+            datum.name + ' | ' + formatY(d.y)
+          );
+        } else {
+          d3.select(labels.nodes()[idx]).text(datum.name);
+        }
+      });
+    });
+
     // update crosshairs
     const formatY = formatNum('.3s');
     const formatX =
@@ -399,25 +425,11 @@ class Chart {
     this.chartBody
       .on('mousemove', function() {
         const mouse = d3.mouse(this);
-        const labels = d3.selectAll('.legendCells .cell .label');
 
-        self.data.forEach((datum, idx) => {
-          const values = datum.values;
-          const bisectDate = d3.bisector(d => d.x).left;
-          const x0 = self.new_xScale.invert(mouse[0]);
-          const i = bisectDate(values, x0, 1);
-          const d0 = values[i - 1];
+        verticalLine.dispatch('change', { detail: mouse });
 
-          if (typeof values[i] != 'undefined') {
-            const d1 = values[i];
-            const d = x0 - d0.x > d1.x - x0 ? d1 : d0;
-            d3.select(labels.nodes()[idx]).text(
-              datum.name + ' | ' + formatY(d.y)
-            );
-          } else {
-            d3.select(labels.nodes()[idx]).text(datum.name);
-          }
-        });
+        if (self.bottomChart != null)
+          self.bottomChart.updateLegendValues(mouse);
 
         verticalLine
           .attr('x1', mouse[0] + 50)

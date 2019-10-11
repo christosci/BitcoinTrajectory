@@ -134,9 +134,7 @@ class BottomChart {
           .attr('stroke-dasharray', 0);
       });
 
-      this.annotations.forEach(a =>
-        a.path.remove()
-      );
+      this.annotations.forEach(a => a.path.remove());
       this.addAnnotations();
 
       this.chart.select('.y.grid').call(
@@ -238,14 +236,8 @@ class BottomChart {
   }
 
   addCrosshairs() {
-    const transform = chartDiv.clientHeight - 70;
+    const verticalLineTop = d3.select('.crosshair.verticalLineTop');
 
-    const verticalLineTop = svg
-      .append('line')
-      .attr('y1', 0)
-      .attr('y2', chartDiv.clientHeight - 100)
-      .attr('class', 'crosshair')
-      .attr('opacity', 0);
     this.verticalLine = this.chartBody
       .append('line')
       .attr('y1', 0)
@@ -259,7 +251,6 @@ class BottomChart {
       .attr('opacity', 0); // hidden at start in case mousemoves in main chart
 
     const yTextBox = this.chart.append('g').attr('opacity', 0);
-    const xTextBox = svg.append('g').attr('opacity', 0);
 
     yTextBox
       .append('rect')
@@ -273,17 +264,8 @@ class BottomChart {
       .attr('y', 13)
       .attr('class', 'yTextBox text');
 
-    xTextBox
-      .append('rect')
-      .attr('y', transform)
-      .attr('width', 100)
-      .attr('height', 18)
-      .attr('class', 'xTextBox bg');
-    const xText = xTextBox
-      .append('text')
-      .attr('x', 50)
-      .attr('y', transform + 13)
-      .attr('class', 'xTextBox text');
+    const xTextBox = d3.select('.xTextBoxGroup');
+    const xText = d3.select('.xTextBox.text');
 
     // update crosshairs
     const formatY = formatNum('.3f');
@@ -292,27 +274,11 @@ class BottomChart {
     this.chartBody
       .on('mousemove', function() {
         const mouse = d3.mouse(this);
-        const labels = d3.selectAll(
-          '.legendOrdinalBottom .legendCells .cell .label'
-        );
 
-        self.data.forEach((datum, idx) => {
-          const values = datum.values;
-          const bisectDate = d3.bisector(d => d.x).left;
-          const x0 = self.new_xScale.invert(mouse[0]);
-          const i = bisectDate(values, x0, 1);
-          const d0 = values[i - 1];
+        verticalLineTop.dispatch('change', {detail: mouse});
 
-          if (typeof values[i] != 'undefined') {
-            const d1 = values[i];
-            const d = x0 - d0.x > d1.x - x0 ? d1 : d0;
-            d3.select(labels.nodes()[idx]).text(
-              datum.name + ' | ' + formatY(d.y)
-            );
-          } else {
-            d3.select(labels.nodes()[idx]).text(datum.name);
-          }
-        });
+        self.updateLegendValues(mouse);
+
         verticalLineTop
           .attr('x1', mouse[0] + 50)
           .attr('x2', mouse[0] + 50)
@@ -342,6 +308,29 @@ class BottomChart {
         xTextBox.attr('opacity', 0);
         yTextBox.attr('opacity', 0);
       });
+  }
+
+  updateLegendValues(mouse) {
+    const formatY = formatNum('.3f');
+    const labels = d3.selectAll(
+      '.legendOrdinalBottom .legendCells .cell .label'
+    );
+
+    this.data.forEach((datum, idx) => {
+      const values = datum.values;
+      const bisectDate = d3.bisector(d => d.x).left;
+      const x0 = this.new_xScale.invert(mouse[0]);
+      const i = bisectDate(values, x0, 1);
+      const d0 = values[i - 1];
+
+      if (typeof values[i] != 'undefined') {
+        const d1 = values[i];
+        const d = x0 - d0.x > d1.x - x0 ? d1 : d0;
+        d3.select(labels.nodes()[idx]).text(datum.name + ' | ' + formatY(d.y));
+      } else {
+        d3.select(labels.nodes()[idx]).text(datum.name);
+      }
+    });
   }
 
   addLegend() {
