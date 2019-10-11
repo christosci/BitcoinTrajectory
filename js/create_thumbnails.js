@@ -2,7 +2,6 @@ const minJsonPaths = [
   'data-min/normalized/transactions_squared.json',
   'data-min/marketcap.json',
   'data-min/normalized/addresses_genmetcalfe.json',
-  'data-min/normalized/transactions_m2.json',
   'data-min/price.json',
   'data-min/realizedcap.json',
   'data-min/regressions/trolololo_log.json',
