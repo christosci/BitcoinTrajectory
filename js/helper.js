@@ -1,19 +1,24 @@
-function parseJson(data, containsBounds = false, xStart = null) {
+function parseJson(data, containsBounds = false, xStart = null, xSkipTo = 0) {
   if (containsBounds)
-    return data.values.map(point => {
-      return {
+    return data.values.reduce(function(result, point) {
+      if (point.x >= xSkipTo)
+        result.push({
+          x: parseX(point.x, xStart),
+          y: point.y,
+          yUpper: point.y_upper,
+          yLower: point.y_lower
+        });
+      return result;
+    }, []);
+
+  return data.values.reduce(function(result, point) {
+    if (point.x >= xSkipTo)
+      result.push({
         x: parseX(point.x, xStart),
-        y: point.y,
-        yUpper: point.y_upper,
-        yLower: point.y_lower
-      };
-    });
-  return data.values.map(point => {
-    return {
-      x: parseX(point.x, xStart),
-      y: point.y
-    };
-  });
+        y: point.y
+      });
+    return result;
+  }, []);
 }
 
 function parseX(x, xStart = null) {
@@ -37,7 +42,19 @@ function deselectButton(button) {
 
 function noCacheStr() {
   const date = new Date();
-  return "?nocache=" + date.getUTCDate() + (date.getUTCMonth() + 1) + date.getUTCFullYear();
+  return (
+    '?nocache=' +
+    date.getUTCDate() +
+    (date.getUTCMonth() + 1) +
+    date.getUTCFullYear()
+  );
+}
+
+function resetSettingsTable() {
+  deselectButton(d3.select('#halvings'));
+  deselectButton(d3.select('#cycles'));
+  deselectButton(d3.select('#cb'));
+  selectButton(d3.select('#legend'));
 }
 
 // color palette
@@ -47,4 +64,3 @@ const DARK_GREEN = '#13a038';
 const GREEN = '#2ce65f';
 const BLUE = '#33ccff';
 const RED = '#ee0000';
-
