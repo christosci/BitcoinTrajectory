@@ -12,12 +12,7 @@ class Chart {
     });
   }
 
-  setBottomChart(bottomChart) {
-    this.bottomChart = bottomChart;
-    this.heightFactor = 0.75;
-  }
-
-  show(yDomainLog, yDomainLinear, xStart = null) {
+  show(yDomainLog, yDomainLinear, xStart = null, xSkipTo = 0) {
     this.yDomainLog = yDomainLog;
     this.yDomainLinear = yDomainLinear;
     this.xStart = xStart;
@@ -36,23 +31,42 @@ class Chart {
       let maxX = new Date(0);
 
       args.forEach((d, i) => {
-        let values = parseJson(d, this.data[i].containsBounds, this.xStart);
+        let values = parseJson(
+          d,
+          this.data[i].containsBounds,
+          this.xStart,
+          xSkipTo
+        );
         this.data[i].values = values;
+        if (d.r2 !== undefined)
+          this.data[i].name += ', R^2 = ' + d.r2;
 
         const domain = d3.extent(values, d => d.x);
         minX = Math.min(domain[0], minX);
         maxX = Math.max(domain[1], maxX);
       });
       this.xDomain = [minX, maxX];
-      if (this.bottomChart != null) bottomChart.xDomain = this.xDomain;
+      if (this.bottomChart != null)
+        this.showBottomChart(bottomChart, this.yDomainBottom);
       this.draw();
     });
+  }
+
+  setBottomChart(bottomChart, yDomain) {
+    this.bottomChart = bottomChart;
+    this.yDomainBottom = yDomain;
+  }
+
+  showBottomChart() {
+    this.heightFactor = 0.75;
+    bottomChart.show(this.yDomainBottom, this.xDomain);
   }
 
   draw(resize = false) {
     if (resize) {
       svg.remove();
       svg = d3.select(chartDiv).append('svg');
+      resetSettingsTable();
     }
     this.margin = { top: 20, right: 50, bottom: 30, left: 50 };
     this.clientWidth = chartDiv.clientWidth;
@@ -435,7 +449,10 @@ class Chart {
           .attr('x1', mouse[0] + 50)
           .attr('x2', mouse[0] + 50)
           .attr('opacity', 1);
-        if (self.bottomChart != null)
+        if (
+          self.bottomChart != null &&
+          typeof self.bottomChart.verticalLine != 'undefined'
+        )
           self.bottomChart.verticalLine
             .attr('x1', mouse[0])
             .attr('x2', mouse[0])
@@ -455,7 +472,10 @@ class Chart {
       })
       .on('mouseout', function() {
         verticalLine.attr('opacity', 0);
-        if (self.bottomChart != null)
+        if (
+          self.bottomChart != null &&
+          typeof self.bottomChart.verticalLine != 'undefined'
+        )
           self.bottomChart.verticalLine.attr('opacity', 0);
         horizontalLine.attr('opacity', 0);
         xTextBox.attr('opacity', 0);
