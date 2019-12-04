@@ -131,7 +131,7 @@ def r2():
         coeffs = np.asarray([3.4896e-18, 5.9762], dtype=np.float)
     )
 
-    add_element(POWER_LAW, {'r': power_law})
+    add_element(POWER_LAW, {'r2': power_law})
 
 
 if __name__ == "__main__":
