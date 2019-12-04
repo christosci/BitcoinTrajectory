@@ -89,6 +89,11 @@ def xy_to_json(filepath, coeffs, values):
     regression_data = {'coeffs': coeffs, 'values': values}
     write_to_json(filepath, regression_data)
 
+def add_element(filepath, element):
+    data = read_from_json(filepath)
+    data.update(element)
+    write_to_json(filepath, data)
+
 def regression_to_xy_dict(x_start, x_stop, days_to_skip, func, coeffs, cl=None,):
     """
     :returns: dict of xy values based on given regression parameters.
@@ -123,6 +128,19 @@ def format_coinmetrics_data(filepath):
         for v in data['metricData']['series']:
             time = dateutil.parser.parse(v['time']).timestamp()
             values.append({'x': time, 'y': float(v['values'][0])})
+        f.seek(0)
+        json.dump({'values': values }, f, indent=4)
+        f.truncate()
+
+def format_fear_greed(filepath):
+    """
+    Formats JSON data from alternative.me's fear and greed index.
+    """
+    with open(filepath, 'r+') as f:
+        data = json.load(f)
+        values = []
+        for v in reversed(data['data']):
+            values.append({'x': int(v['timestamp']), 'y': int(v['value'])})
         f.seek(0)
         json.dump({'values': values }, f, indent=4)
         f.truncate()
