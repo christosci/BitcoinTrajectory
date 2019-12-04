@@ -2,7 +2,7 @@
 <div class="row odd">
   <div class="title w-100">Theoretical Value</div>
   <div class="container">
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=metcalfe" class="chart-link">
           <div class="card-body">
@@ -26,7 +26,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=generalized_metcalfe" class="chart-link">
           <div class="card-body">
@@ -47,7 +47,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=sf" class="chart-link">
           <div class="card-body">
@@ -70,7 +70,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=mvrv" class="chart-link">
           <div class="card-body">
@@ -94,7 +94,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=metcalfe_multiple" class="chart-link">
           <div class="card-body">
@@ -122,7 +122,7 @@
 <div class="row even">
   <div class="title w-100">Regression Analysis</div>
   <div class="container">
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=trolololo" class="chart-link">
           <div class="card-body">
@@ -145,7 +145,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=power_law" class="chart-link">
           <div class="card-body">
@@ -171,9 +171,9 @@
   </div>
 </div>
 <div class="row odd">
-  <div class="title w-100">Sentiment Analysis</div>
+  <div class="title w-100">Sentiment</div>
   <div class="container">
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=interest" class="chart-link">
           <div class="card-body">
@@ -195,12 +195,34 @@
         </p>
       </div>
     </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="card">
+        <a href="charts/chart.php?id=fear_greed_index" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Fear and Greed Index</p>
+            <div id="thumbnail-feargreed" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          alternative.me's fear and greed index compared to price.<br />
+          <a href="https://alternative.me/crypto/fear-and-greed-index/"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
   </div>
 </div>
-<div class="row even">
+<!-- <div class="row even">
   <div class="title w-100">Volatility</div>
   <div class="container">
-    <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
         <a href="charts/chart.php?id=daily_log_returns" class="chart-link">
           <div class="card-body">
@@ -223,6 +245,6 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <?php include ("footer.html"); ?>
 
