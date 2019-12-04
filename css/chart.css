@@ -53,9 +53,9 @@
 
 /* Crosshair style */
 .crosshair {
-  stroke: #333;
+  stroke: #444;
   stroke-width: 1px;
-  stroke-dasharray: 2px, 2px;
+  stroke-dasharray: 3px, 3px;
   pointer-events: none;
 }
 
@@ -68,6 +68,7 @@
 .xTextBox.text,
 .yTextBox.text {
   font-size: 12px;
+  font-family: Open Sans;
   fill: #ddd;
   text-anchor: middle;
   font-weight: bold;
