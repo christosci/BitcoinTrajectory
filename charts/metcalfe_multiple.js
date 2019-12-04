@@ -32,6 +32,6 @@ const bottomChart = new BottomChart(
   ]
 );
 
-chart.show([0.01, 50000], [-5000, 30000]);
-bottomChart.show([-2, 15]);
-chart.setBottomChart(bottomChart);
+chart.setBottomChart(bottomChart, [-2, 15]);
+chart.show([0.01, 50000], [-5000, 30000], null);
+

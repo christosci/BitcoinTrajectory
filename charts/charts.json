@@ -2,8 +2,7 @@
     "metcalfe": {
         "title": "Metcalfe's Law",
         "additional_settings": [
-            "logScale",
-            "cb"
+            "logScale"
         ]
     },
     "generalized_metcalfe": {
@@ -11,12 +10,6 @@
         "additional_settings": [
             "logScale",
             "cb"
-        ]
-    },
-    "m2": {
-        "title": "M2",
-        "additional_settings": [
-            "logScale"
         ]
     },
     "mvrv": {
@@ -54,6 +47,12 @@
     },
     "metcalfe_multiple": {
         "title": "Metcalfe Multiple",
+        "additional_settings": [
+            "logScale"
+        ]
+    },
+    "fear_greed_index": {
+        "title": "Fear and Greed Index",
         "additional_settings": [
             "logScale"
         ]
