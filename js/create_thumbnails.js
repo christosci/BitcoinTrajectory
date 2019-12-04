@@ -9,7 +9,8 @@ const minJsonPaths = [
   'data/normalized/stock_flow.json',
   'data/normalized/interest_scaled.json',
   'data/normalized/daily_log_returns.json',
-  'data-min/normalized/metcalfe_multiple.json'
+  'data-min/normalized/metcalfe_multiple.json',
+  'data-min/fear_greed.json'
 ];
 var q = d3.queue();
 minJsonPaths.forEach(path => {
@@ -142,4 +143,14 @@ q.awaitAll((error, args) => {
       }
     ]
   ).show(d3.scaleLinear(), -1);
+
+  new Thumbnail(
+    'thumbnail-feargreed',
+    [
+      {
+        values: values.fear_greed,
+        style: { stroke: GOLD, strokeWidth: '1px' }
+      }
+    ]
+  ).show(d3.scaleLinear());
 });
