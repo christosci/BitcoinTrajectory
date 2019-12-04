@@ -6,7 +6,7 @@ START_TIMESTAMP = 1279324800
 START_DATE = '2010-07-16'
 END_TIMESTAMP = 1519603200
 REGRESSION_X_STEP = 30 # days
-REGRESSION_TIMESPAN = 631139040 # 20 years
+REGRESSION_TIMESPAN = 361670400 
 CURRENT_TIME = int(calendar.timegm(time.gmtime()))
 
 DATA_PATH = path.abspath(path.join(path.dirname(__file__), '..', 'data'))
@@ -32,6 +32,7 @@ SUPPLY = path.join(DATA_PATH, 'supply.json')
 TRANSACTIONS = path.join(DATA_PATH, 'transactions.json')
 MONTHLY_SUPPLY = path.join(DATA_PATH, 'monthly_supply.json')
 INTEREST = path.join(DATA_PATH, 'interest.json')
+FEAR_GREED = path.join(DATA_PATH, 'fear_greed.json')
 
 # regression data
 TRANSACTIONS_POWER_SQUARED = path.join(REGRESSIONS_PATH, 'transactions_power_squared.json')
@@ -82,5 +83,10 @@ DATA_INFO = [
         'path': TRANSACTIONS,
         'url': BLOCKCHAIN_URL,
         'endpoint': 'n-transactions-excluding-popular?timespan=all&start=%s&format=json&sampled=false' % START_TIMESTAMP
+    },
+    {
+        'path': FEAR_GREED,
+        'url': 'https://api.alternative.me/',
+        'endpoint': 'fng/?limit=0'
     }
 ]
