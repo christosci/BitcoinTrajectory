@@ -2,11 +2,25 @@ import numpy as np
 import math
 from scipy.optimize import curve_fit
 from scipy.stats.distributions import t
+from sklearn.metrics import r2_score
 from constants import *
 from process_data import *
 
 def get_cl_from_se(se, z_score):
     return np.asarray(se) * z_score
+
+def get_r2(x_start, true, func, coeffs):
+    y_true = []
+    y_pred = []
+
+    for i, v in enumerate(true):
+        y_true.append(np.log10(v['y']))
+        x = (v['x'] - x_start) / 86400
+        y_pred.append(np.log10(func(x, *coeffs)))
+
+    r2 = r2_score(y_true, y_pred)
+
+    return round(r2, 2)
 
 def square(x):
     return x**2
@@ -55,14 +69,12 @@ def do_curve_fit(func, x, y, alpha=0.05):
     cl = np.multiply(np.sqrt(np.diag(pcov)), tval)
     return coeffs, cl
 
-def create_regression(input_filepath, output_filepath, func):
+def create_regression(input_filepath, output_filepath, x_stop, func):
     x, y = json_to_xy(input_filepath, START_TIMESTAMP, END_TIMESTAMP)
-    x_stop = START_TIMESTAMP + REGRESSION_TIMESPAN
     coeffs, cl = do_curve_fit(func, x, y)
     values = regression_to_xy_dict(START_TIMESTAMP, x_stop, REGRESSION_X_STEP, func, coeffs, cl)
     xy_to_json(output_filepath, coeffs.tolist(), values)
 
-def plot_function(output_filepath, x_start, func, coeffs):
-    x_stop = START_TIMESTAMP + REGRESSION_TIMESPAN
+def plot_function(output_filepath, x_start, x_stop, func, coeffs):
     values = regression_to_xy_dict(x_start, x_stop, REGRESSION_X_STEP, func, coeffs)
     xy_to_json(output_filepath, coeffs.tolist(), values)
