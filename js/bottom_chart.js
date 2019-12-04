@@ -8,10 +8,11 @@ class BottomChart {
     this.annotations = annotations;
   }
 
-  show(yDomain) {
+  show(yDomain, xDomain) {
     // show bottom chart div
     d3.select(bottomChartDiv).attr('class', 'bottom-chart-show');
     this.yDomain = yDomain;
+    this.xDomain = xDomain;
 
     const noCache = noCacheStr();
     const q = d3.queue();
@@ -275,7 +276,7 @@ class BottomChart {
       .on('mousemove', function() {
         const mouse = d3.mouse(this);
 
-        verticalLineTop.dispatch('change', {detail: mouse});
+        verticalLineTop.dispatch('change', { detail: mouse });
 
         self.updateLegendValues(mouse);
 
@@ -311,6 +312,8 @@ class BottomChart {
   }
 
   updateLegendValues(mouse) {
+    if (typeof this.new_xScale == 'undefined')
+      return;
     const formatY = formatNum('.3f');
     const labels = d3.selectAll(
       '.legendOrdinalBottom .legendCells .cell .label'
