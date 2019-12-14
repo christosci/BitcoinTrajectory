@@ -12,4 +12,4 @@ const chart = new Chart("Metcalfe's Law (Transactions vs Market Cap)", [
     transition: { ease: d3.easeQuadInOut, delay: 500, duration: 2500 }
   }
 ]);
-chart.show([10000, 1e12], [0, 8e12]);
+chart.show([10000, 1e12], [0, 5e11]);

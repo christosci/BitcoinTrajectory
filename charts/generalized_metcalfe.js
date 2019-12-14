@@ -22,4 +22,4 @@ const chart = new Chart(
     }
   ]
 );
-chart.show([10000, 1e12], [0, 8e12]);
+chart.show([10000, 1e12], [0, 5e11]);
