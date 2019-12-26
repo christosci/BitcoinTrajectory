@@ -15,6 +15,9 @@ def fetch():
     # format everything
     format_coinmetrics_data(ADDRESSES)
     format_coinmetrics_data(REALIZEDCAP)
+    format_coinmetrics_data(PRICE)
+    format_coinmetrics_data(MARKETCAP)
+    format_coinmetrics_data(SUPPLY)
     format_fear_greed(FEAR_GREED)
     for info in DATA_INFO:
         remove_zero_values(info['path'])

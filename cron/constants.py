@@ -3,7 +3,7 @@ import calendar
 import time
 
 START_TIMESTAMP = 1279324800
-START_DATE = '2010-07-16'
+START_DATE = '2010-07-18'
 END_TIMESTAMP = 1519603200
 REGRESSION_X_STEP = 30 # days
 REGRESSION_TIMESPAN = 361670400 
@@ -61,13 +61,13 @@ DATA_INFO = [
     },
     {
         'path': MARKETCAP,
-        'url': BLOCKCHAIN_URL,
-        'endpoint': 'market-cap?timespan=all&start=%s&format=json&sampled=false' % START_TIMESTAMP
+        'url': COINMETRICS_URL,
+        'endpoint': 'metricdata?metrics=CapMrktCurUSD&start=%s' % START_DATE
     },
     {
         'path': PRICE,
-        'url': BLOCKCHAIN_URL,
-        'endpoint': 'market-price?timespan=all&start=%s&format=json&sampled=false' % START_TIMESTAMP
+        'url': COINMETRICS_URL,
+        'endpoint': 'metricdata?metrics=PriceUSD&start=%s' % START_DATE
     },
     {
         'path': REALIZEDCAP,
@@ -76,8 +76,8 @@ DATA_INFO = [
     },
     {
         'path': SUPPLY,
-        'url': BLOCKCHAIN_URL,
-        'endpoint': 'total-bitcoins?timespan=all&start=%s&format=json&sampled=false' % START_TIMESTAMP
+        'url': COINMETRICS_URL,
+        'endpoint': 'metricdata?metrics=SplyCur&start=%s' % START_DATE
     },
     {   
         'path': TRANSACTIONS,
