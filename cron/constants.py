@@ -33,6 +33,7 @@ TRANSACTIONS = path.join(DATA_PATH, 'transactions.json')
 MONTHLY_SUPPLY = path.join(DATA_PATH, 'monthly_supply.json')
 INTEREST = path.join(DATA_PATH, 'interest.json')
 FEAR_GREED = path.join(DATA_PATH, 'fear_greed.json')
+VOLUME = path.join(DATA_PATH, 'volume.json')
 
 # regression data
 TRANSACTIONS_POWER_SQUARED = path.join(REGRESSIONS_PATH, 'transactions_power_squared.json')
@@ -83,6 +84,11 @@ DATA_INFO = [
         'path': TRANSACTIONS,
         'url': BLOCKCHAIN_URL,
         'endpoint': 'n-transactions-excluding-popular?timespan=all&start=%s&format=json&sampled=false' % START_TIMESTAMP
+    },
+    {
+        'path': VOLUME,
+        'url': BLOCKCHAIN_URL,
+        'endpoint': 'trade-volume?timespan=all&start=%s&format=json&sampled=false' % START_TIMESTAMP
     },
     {
         'path': FEAR_GREED,

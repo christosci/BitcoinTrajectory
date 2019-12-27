@@ -56,5 +56,11 @@
         "additional_settings": [
             "logScale"
         ]
+    },
+    "volume": {
+        "title": "Trade Volume (USD)",
+        "additional_settings": [
+            "logScale"
+        ]
     }
 }

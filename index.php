@@ -219,8 +219,8 @@
     </div>
   </div>
 </div>
-<!-- <div class="row even">
-  <div class="title w-100">Volatility</div>
+<div class="row even">
+  <div class="title w-100">Miscellaneous</div>
   <div class="container">
     <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card">
@@ -244,7 +244,29 @@
         </p>
       </div>
     </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="card">
+        <a href="charts/chart.php?id=volume" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Price vs USD Volume</p>
+            <div id="thumbnail-volume" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          The total USD value of trading volume on major Bitcoin exchanges.<br />
+          <a href="https://quantivity.wordpress.com/2011/02/21/why-log-returns/"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
   </div>
-</div> -->
+</div>
 <?php include ("footer.html"); ?>
 

@@ -135,8 +135,10 @@ class BottomChart {
           .attr('stroke-dasharray', 0);
       });
 
-      this.annotations.forEach(a => a.path.remove());
-      this.addAnnotations();
+      if (this.annotations != undefined) {
+        this.annotations.forEach(a => a.path.remove());
+        this.addAnnotations();
+      }
 
       this.chart.select('.y.grid').call(
         d3
@@ -229,7 +231,7 @@ class BottomChart {
     this.yAxis = d3
       .axisLeft(this.yScale)
       .ticks(5, 's')
-      .tickFormat(formatNum('.1f'));
+      .tickFormat(formatNum('.1s'));
     this.chart
       .append('g')
       .attr('class', 'y axis')
@@ -269,7 +271,7 @@ class BottomChart {
     const xText = d3.select('.xTextBox.text');
 
     // update crosshairs
-    const formatY = formatNum('.3f');
+    const formatY = formatNum('.3s');
     const formatX = d3.timeFormat("%d %b '%y");
     const self = this;
     this.chartBody
@@ -314,7 +316,7 @@ class BottomChart {
   updateLegendValues(mouse) {
     if (typeof this.new_xScale == 'undefined')
       return;
-    const formatY = formatNum('.3f');
+    const formatY = formatNum('.3s');
     const labels = d3.selectAll(
       '.legendOrdinalBottom .legendCells .cell .label'
     );
