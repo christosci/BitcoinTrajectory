@@ -231,7 +231,7 @@ class BottomChart {
     this.yAxis = d3
       .axisLeft(this.yScale)
       .ticks(5, 's')
-      .tickFormat(formatNum('.1s'));
+      .tickFormat(formatNum('.2s'));
     this.chart
       .append('g')
       .attr('class', 'y axis')
