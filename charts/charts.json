@@ -62,5 +62,11 @@
         "additional_settings": [
             "logScale"
         ]
+    },
+    "cot": {
+        "title": "Commitment of Traders - CME Bitcoin Futures",
+        "additional_settings": [
+            "logScale"
+        ]
     }
 }

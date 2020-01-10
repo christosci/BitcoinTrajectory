@@ -217,6 +217,28 @@
         </p>
       </div>
     </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="card">
+        <a href="charts/chart.php?id=cot" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Commitment of Traders</p>
+            <div id="thumbnail-cot" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          COT report of Bitcoin CME Futures. Long/short ratio by trader classification.<br />
+          <a href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 <div class="row even">
@@ -260,9 +282,6 @@
         </a>
         <p class="card-text">
           The total USD value of trading volume on major Bitcoin exchanges.<br />
-          <a href="https://quantivity.wordpress.com/2011/02/21/why-log-returns/"
-            >Learn More</a
-          >
         </p>
       </div>
     </div>

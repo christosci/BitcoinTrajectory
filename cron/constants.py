@@ -2,6 +2,7 @@ from os import path
 import calendar
 import time
 
+QUANDL_API_KEY = '6Vypbvq4CTqLv-USiz-y'
 START_TIMESTAMP = 1279324800
 START_DATE = '2010-07-18'
 END_TIMESTAMP = 1519603200
@@ -34,6 +35,10 @@ MONTHLY_SUPPLY = path.join(DATA_PATH, 'monthly_supply.json')
 INTEREST = path.join(DATA_PATH, 'interest.json')
 FEAR_GREED = path.join(DATA_PATH, 'fear_greed.json')
 VOLUME = path.join(DATA_PATH, 'volume.json')
+COT = path.join(DATA_PATH, 'cot.json')
+DEALER_RATIO = path.join(DATA_PATH, 'dealer_ratio.json')
+ASSETMNGR_RATIO = path.join(DATA_PATH, 'assetmngr_ratio.json')
+FUNDS_RATIO = path.join(DATA_PATH, 'funds_ratio.json')
 
 # regression data
 TRANSACTIONS_POWER_SQUARED = path.join(REGRESSIONS_PATH, 'transactions_power_squared.json')
@@ -94,5 +99,10 @@ DATA_INFO = [
         'path': FEAR_GREED,
         'url': 'https://api.alternative.me/',
         'endpoint': 'fng/?limit=0'
+    },
+    {
+        'path': COT,
+        'url': 'https://www.quandl.com/api/v3/datasets/',
+        'endpoint': 'CFTC/133741_F_ALL.json?api_key=%s' % QUANDL_API_KEY
     }
 ]

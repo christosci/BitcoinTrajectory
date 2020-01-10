@@ -5,6 +5,7 @@ import requests
 from constants import *
 import logging
 import dateutil.parser
+from datetime import datetime
 
 logging.basicConfig(filename='error.log', level=logging.INFO)
 
@@ -144,6 +145,29 @@ def format_fear_greed(filepath):
         f.seek(0)
         json.dump({'values': values }, f, indent=4)
         f.truncate()
+
+def format_cot(filepath):
+    """
+    Formats JSON data from COT report data available on quandl.
+    """
+    dealer_ratio = []
+    assetmngr_ratio = []
+    funds_ratio = []
+
+    with open(filepath, 'r+') as f:
+        data = json.load(f)
+        values = data['dataset']['data']
+        for v in reversed(values):
+            timestamp = int(datetime.strptime(v[0], "%Y-%m-%d").timestamp())
+            dealer_ratio.append({'x': timestamp, 'y': v[2]-v[3]})
+            assetmngr_ratio.append({'x': timestamp, 'y': v[5]-v[6]})
+            funds_ratio.append({'x': timestamp, 'y': v[8]-v[9]})
+
+    write_to_json(DEALER_RATIO, {'values': dealer_ratio})
+    write_to_json(ASSETMNGR_RATIO, {'values': assetmngr_ratio})
+    write_to_json(FUNDS_RATIO, {'values': funds_ratio})
+    os.remove(filepath) 
+
 
 def apply(input_filepath, output_filepath, func, *args):
     """

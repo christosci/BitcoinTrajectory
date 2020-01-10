@@ -13,6 +13,7 @@ def fetch():
     """
     fetch_json() # fetch json files
     # format everything
+    format_cot(COT)
     format_coinmetrics_data(ADDRESSES)
     format_coinmetrics_data(REALIZEDCAP)
     format_coinmetrics_data(PRICE)
@@ -20,7 +21,8 @@ def fetch():
     format_coinmetrics_data(SUPPLY)
     format_fear_greed(FEAR_GREED)
     for info in DATA_INFO:
-        remove_zero_values(info['path'])
+        if info['url'] == (BLOCKCHAIN_URL or COINMETRICS_URL):
+            remove_zero_values(info['path'])
 
 def normalize():
     """
