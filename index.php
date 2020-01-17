@@ -94,83 +94,9 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card">
-        <a href="charts/chart.php?id=metcalfe_multiple" class="chart-link">
-          <div class="card-body">
-            <p class="card-title">Metcalfe Multiple</p>
-            <div id="thumbnail-metcalfemultiple" class="thumbnail spinner">
-              <div class="rect1"></div>
-              <div class="rect2"></div>
-              <div class="rect3"></div>
-              <div class="rect4"></div>
-              <div class="rect5"></div>
-            </div>
-          </div>
-        </a>
-        <p class="card-text">
-          Price / Daily transactions (excluding the 100 most popular addresses)&sup2;
-          <!-- <a
-            href=""
-            >Learn More</a
-          > -->
-        </p>
-      </div>
-    </div>
   </div>
 </div>
 <div class="row even">
-  <div class="title w-100">Regression Analysis</div>
-  <div class="container">
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card">
-        <a href="charts/chart.php?id=trolololo" class="chart-link">
-          <div class="card-body">
-            <p class="card-title">Logarithmic Regression</p>
-            <div id="thumbnail-trolololo" class="thumbnail spinner">
-              <div class="rect1"></div>
-              <div class="rect2"></div>
-              <div class="rect3"></div>
-              <div class="rect4"></div>
-              <div class="rect5"></div>
-            </div>
-          </div>
-        </a>
-        <p class="card-text">
-          Logarithmic regression of market price with x-intercept at the
-          genesis block date.<br />
-          <a href="https://bitcointalk.org/index.php?topic=831547.0"
-            >Learn More</a
-          >
-        </p>
-      </div>
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card">
-        <a href="charts/chart.php?id=power_law" class="chart-link">
-          <div class="card-body">
-            <p class="card-title">Power Law</p>
-            <div id="thumbnail-powerlaw" class="thumbnail spinner">
-              <div class="rect1"></div>
-              <div class="rect2"></div>
-              <div class="rect3"></div>
-              <div class="rect4"></div>
-              <div class="rect5"></div>
-            </div>
-          </div>
-        </a>
-        <p class="card-text">
-          Log-log chart showing a power law relationship between price and days since the genesis block.<br />
-          <a
-            href="https://www.reddit.com/r/Bitcoin/comments/9cqi0k/bitcoin_power_law_over_10_year_period_all_the_way/"
-            >Learn More</a
-          >
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row odd">
   <div class="title w-100">Sentiment</div>
   <div class="container">
     <div class="col-md-3 col-sm-6 col-xs-12">
@@ -234,6 +160,57 @@
         <p class="card-text">
           COT report of Bitcoin CME Futures. Long/short ratio by trader classification.<br />
           <a href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row odd">
+  <div class="title w-100">Regression Analysis</div>
+  <div class="container">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="card">
+        <a href="charts/chart.php?id=trolololo" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Logarithmic Regression</p>
+            <div id="thumbnail-trolololo" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          Logarithmic regression of market price with x-intercept at the
+          genesis block date.<br />
+          <a href="https://bitcointalk.org/index.php?topic=831547.0"
+            >Learn More</a
+          >
+        </p>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="card">
+        <a href="charts/chart.php?id=power_law" class="chart-link">
+          <div class="card-body">
+            <p class="card-title">Power Law</p>
+            <div id="thumbnail-powerlaw" class="thumbnail spinner">
+              <div class="rect1"></div>
+              <div class="rect2"></div>
+              <div class="rect3"></div>
+              <div class="rect4"></div>
+              <div class="rect5"></div>
+            </div>
+          </div>
+        </a>
+        <p class="card-text">
+          Log-log chart showing a power law relationship between price and days since the genesis block.<br />
+          <a
+            href="https://www.reddit.com/r/Bitcoin/comments/9cqi0k/bitcoin_power_law_over_10_year_period_all_the_way/"
             >Learn More</a
           >
         </p>
