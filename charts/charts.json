@@ -2,35 +2,48 @@
     "metcalfe": {
         "title": "Metcalfe's Law",
         "additional_settings": [
-            "logScale"
+            "logScale",
+            "halvings",
+            "cycles"
         ]
     },
     "generalized_metcalfe": {
         "title": "Generalized Metcalfe's Law",
         "additional_settings": [
             "logScale",
-            "cb"
+            "halvings",
+            "cycles"
         ]
     },
     "mvrv": {
         "title": "MVRV",
         "additional_settings": [
-            "logScale"
+            "logScale",
+            "halvings",
+            "cycles"
         ]
     },
     "power_law": {
-        "title": "Power Law"
+        "title": "Power Law",
+        "additional_settings": [
+            "logScale",
+            "halvings",
+            "cycles"
+        ]
     },
     "sf": {
         "title": "Stock to Flow",
         "additional_settings": [
-            "logScale"
+            "halvings",
+            "cycles"
         ]
     },
     "trolololo": {
         "title": "Log Regression (Trolololo v2.3)",
         "additional_settings": [
-            "logScale"
+            "logScale",
+            "halvings",
+            "cycles"
         ]
     },
     "interest": {
@@ -42,13 +55,17 @@
     "daily_log_returns": {
         "title": "Daily Log Returns",
         "additional_settings": [
-            "logScale"
+            "logScale",
+            "halvings",
+            "cycles"
         ]
     },
     "metcalfe_multiple": {
         "title": "Metcalfe Multiple",
         "additional_settings": [
-            "logScale"
+            "logScale",
+            "halvings",
+            "cycles"
         ]
     },
     "fear_greed_index": {
@@ -60,7 +77,9 @@
     "volume": {
         "title": "Trade Volume (USD)",
         "additional_settings": [
-            "logScale"
+            "logScale",
+            "halvings",
+            "cycles"
         ]
     },
     "cot": {

@@ -29,12 +29,12 @@
         <table class="settings-table">
           <tr>
             <td id="logScale" class="selected" <?php get_display_style('logScale'); ?>>
-                Log<span class="tooltiptext">Toggle log scale</span>
+                Log<span class="tooltiptext">Toggle y-axis log scale</span>
             </td>
-            <td id="halvings">
+            <td id="halvings" <?php get_display_style('halvings'); ?>>
               Halvings<span class="tooltiptext">Toggle halving dates</span>
             </td>
-            <td id="cycles">
+            <td id="cycles" <?php get_display_style('cycles'); ?>>
               Cycles<span class="tooltiptext">Toggle bear/bull cycles</span>
             </td>
             <td id="cb" <?php get_display_style('cb'); ?>>
