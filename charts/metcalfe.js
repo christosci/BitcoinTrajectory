@@ -1,4 +1,4 @@
-const chart = new Chart("Metcalfe's Law (Transactions vs Market Cap)", [
+const chart = new Chart("Metcalfe's Law", [
   {
     name: 'Transactions excluding popular addresses squared',
     jsonPath: '../data/normalized/transactions_squared.json',
