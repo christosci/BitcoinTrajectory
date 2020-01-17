@@ -6,15 +6,11 @@ body {
   font-family: "Open Sans";
 }
 
-.jumbotron {
-  margin-bottom: 0;
-  background-color: #1a1a1a;
-  color: #ccc;
-}
-
-.jumbotron a {
-  color: inherit;
-  text-decoration: inherit;
+.navbar { 
+  margin-top: 5px;
+  margin-bottom: 7px;
+  border: 0;
+  background-color: #111;
 }
 
 footer {
