@@ -9,7 +9,6 @@ const minJsonPaths = [
   'data/normalized/stock_flow.json',
   'data/normalized/interest_scaled.json',
   'data/normalized/daily_log_returns.json',
-  'data-min/normalized/metcalfe_multiple.json',
   'data-min/fear_greed.json',
   'data-min/volume.json',
   'data/dealer_ratio.json',
@@ -43,16 +42,6 @@ q.awaitAll((error, args) => {
       }
     ]
   ).show();
-
-  new Thumbnail(
-    'thumbnail-metcalfemultiple',
-    [
-      {
-        values: values.metcalfe_multiple,
-        style: { stroke: "GOLD", strokeWidth: '1px' }
-      }
-    ]
-  ).show(d3.scaleLinear());
 
   new Thumbnail(
     'thumbnail-genmetcalfe',
